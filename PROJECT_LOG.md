@@ -26,3 +26,4 @@ Parsed meaning:
 - Customer: UTI Micron
 - Site: MTV / Micron Technology Virginia
 - Technician: Erich
+Credential test
