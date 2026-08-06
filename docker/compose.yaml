@@ -1,0 +1,11 @@
+services:
+  qdrant:
+    image: qdrant/qdrant:latest
+    container_name: nova-qdrant
+    restart: unless-stopped
+    ports:
+        - "127.0.0.1:6333:6333"
+        - "127.0.0.1:6334:6334"
+    volumes:
+        - /opt/nova-drl/qdrant/storage:/qdrant/storage
+

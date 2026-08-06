@@ -1,0 +1,6 @@
+document_rules:
+  - name: primary_scanned_traveler
+    filename_regex: '^(?P<log_number>\d+)\s+Line Card Original\.(?P<extension>jpg|jpeg|png|pdf|tif|tiff)$'
+    role: current_traveler
+    printed_title: Direct Repair Laboratories - Testing Traveler
+    preserve_original_filename: true

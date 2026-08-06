@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+*.log
+.env
+qdrant/storage/
+postgres/data/
+backup/
+models/
+ouput/
+
