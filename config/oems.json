@@ -1,1 +1,14 @@
-{"oems":["GENMARK","BROOKS","ASYST","PRI","RORZE","YASKAWA","KAWASAKI","NIKON","TAZMO","HINE"]}
+{
+  "oems": [
+    "GENMARK",
+    "BROOKS",
+    "ASYST",
+    "PRI",
+    "RORZE",
+    "YASKAWA",
+    "KAWASAKI",
+    "NIKON",
+    "TAZMO",
+    "HINE"
+  ]
+}
