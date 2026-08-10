@@ -1,0 +1,35 @@
+{
+  "version": 1,
+  "description": "User-confirmed Direct Repair Labs terminology. Applied after literal transcription.",
+  "entries": [
+    {
+      "aliases": [
+        "Comm's",
+        "Comm\u2019s"
+      ],
+      "canonical_term": "commutators",
+      "meaning": "Motor commutators",
+      "category": "repair_action_term",
+      "context": [
+        "motor repair",
+        "Genmark GB8"
+      ],
+      "user_confirmed": true
+    },
+    {
+      "aliases": [
+        "KEAL",
+        "Keal"
+      ],
+      "canonical_term": "Keal shipping container",
+      "meaning": "Shipping container used for Genmark GB8 robots",
+      "category": "packaging_requirement",
+      "context": [
+        "packaging",
+        "shipping",
+        "Genmark GB8"
+      ],
+      "user_confirmed": true
+    }
+  ]
+}
