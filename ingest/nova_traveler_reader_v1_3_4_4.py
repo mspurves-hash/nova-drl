@@ -42,7 +42,7 @@ import cv2
 import numpy as np
 from PIL import Image, ImageOps, ImageFilter
 
-VERSION = "1.3.4.4"
+VERSION = "1.3.4.4.1"
 DEFAULT_MODEL = "minicpm-v:latest"
 OLLAMA_URL = "http://127.0.0.1:11434/api/generate"
 
@@ -129,11 +129,20 @@ def find_regular_body_run(records):
     """
     Find the longest near-regular horizontal-grid sequence.
 
-    The large header row is intentionally excluded because its first gap is
-    much taller than a normal repair row.
+    v1.3.4.4.1 removes the old fixed 90-pixel row-height ceiling. Traveler
+    Reader v1.3.1 crops can be much larger than the manual validation crop,
+    so the same printed row may be ~110 pixels high.
+
+    The maximum candidate gap is now derived from the observed vertical span.
     """
     ys = [row["y"] for row in records]
     best = None
+
+    if len(ys) < 2:
+        return []
+
+    observed_span = max(1, ys[-1] - ys[0])
+    max_gap = max(90, int(observed_span * 0.15))
 
     for start in range(len(ys)):
         sequence = [ys[start]]
@@ -141,13 +150,13 @@ def find_regular_body_run(records):
 
         for index in range(start + 1, len(ys)):
             gap = ys[index] - sequence[-1]
-            if not 15 <= gap <= 90:
+            if not 8 <= gap <= max_gap:
                 break
 
-            trial = gaps + [gap]
-            median = statistics.median(trial)
-            if gaps and not (0.60 * median <= gap <= 1.45 * median):
-                break
+            if gaps:
+                median = statistics.median(gaps)
+                if not (0.72 * median <= gap <= 1.32 * median):
+                    break
 
             sequence.append(ys[index])
             gaps.append(gap)
@@ -225,10 +234,20 @@ def detect_table_layout(image):
     left_guess = nearest_record["x"]
 
     all_vertical = vertical_line_positions(image, body_lines)
-    vertical = [x for x in all_vertical if x >= left_guess - 5]
+    vertical = [x for x in all_vertical if x >= max(0, left_guess - 5)]
 
-    # Need at least: left edge, repaired/replaced divider, description divider.
-    if len(vertical) < 3:
+    # Traveler Reader v1.3.1 may crop *inside* the left Repaired column.
+    # In that case the table-left border is outside the image, while the first
+    # visible verticals are:
+    #   repaired/replaced divider, description divider, initials, date...
+    crop_left_clipped = (
+        left_guess <= 5
+        and len(vertical) >= 2
+        and vertical[0] > max(12, int(image.width * 0.025))
+    )
+
+    minimum_verticals = 2 if crop_left_clipped else 3
+    if len(vertical) < minimum_verticals:
         return {
             "status": "review_required_vertical_grid",
             "body_lines": body_lines,
@@ -236,15 +255,30 @@ def detect_table_layout(image):
             "table_left": left_guess,
             "description_left": None,
             "table_right": None,
+            "crop_left_clipped": crop_left_clipped,
         }
 
-    table_left = vertical[0]
-    description_left = vertical[2]
+    if crop_left_clipped:
+        table_left = 0
+        repaired_replaced_divider = vertical[0]
+        description_left = vertical[1]
+    else:
+        table_left = vertical[0]
+        repaired_replaced_divider = vertical[1]
+        description_left = vertical[2]
 
     # Prefer the farthest detected vertical table boundary. If the source crop
     # clips the right edge, safely use the crop edge.
-    table_right = vertical[-1] if vertical[-1] > image.width * 0.65 else image.width - 1
-    table_right = min(image.width - 1, max(table_right, int(image.width * 0.80)))
+    table_right = (
+        vertical[-1]
+        if vertical[-1] > image.width * 0.65
+        else image.width - 1
+    )
+    table_right = min(
+        image.width - 1,
+        max(table_right, int(image.width * 0.80)),
+    )
+    crop_right_clipped = table_right >= image.width - 2
 
     row_heights = [
         body_lines[i + 1] - body_lines[i]
@@ -257,9 +291,11 @@ def detect_table_layout(image):
         "vertical_lines": vertical,
         "all_vertical_lines": all_vertical,
         "table_left": table_left,
-        "repaired_replaced_divider": vertical[1],
+        "repaired_replaced_divider": repaired_replaced_divider,
         "description_left": description_left,
         "table_right": table_right,
+        "crop_left_clipped": crop_left_clipped,
+        "crop_right_clipped": crop_right_clipped,
         "physical_row_count": len(body_lines) - 1,
         "median_row_height": statistics.median(row_heights),
     }
@@ -290,8 +326,11 @@ def residual_mark_mask(image, layout):
     for x in vertical:
         mask[:, max(0, x - 3): min(mask.shape[1], x + 4)] = 0
 
-    x0 = vertical[0]
-    x2 = vertical[2]
+    # Use semantic table boundaries rather than assuming the crop contains
+    # the physical table-left border. This is required for v1.3.1 partial
+    # crops where x=0 begins inside the Repaired column.
+    x0 = layout["table_left"]
+    x2 = layout["description_left"]
     y0 = body_lines[0]
     y1 = body_lines[-1]
 
@@ -610,7 +649,7 @@ def locate_repairs_crop(log_dir):
 
 def process_log(log_dir, log_number, model, detect_only, expected_entries=None):
     crop_path = locate_repairs_crop(log_dir)
-    output_dir = log_dir / "vision_extraction_v1_3_4_4"
+    output_dir = log_dir / "vision_extraction_v1_3_4_4_1"
     output_dir.mkdir(parents=True, exist_ok=True)
 
     metadata = source_metadata(log_dir)

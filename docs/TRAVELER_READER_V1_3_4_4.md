@@ -1,4 +1,4 @@
-# Nova DRL Traveler Reader v1.3.4.4
+# Nova DRL Traveler Reader v1.3.4.4.1
 
 ## Variable-Height Repair Block Detection
 
@@ -87,3 +87,19 @@ The structured result is written both to:
 - the log root as `repair_entries_v1_3_4_4.json` for downstream discovery.
 
 The downstream v1.5.1 Repair Actions Fusion expects this structured JSON.
+
+## v1.3.4.4.1 production-crop correction
+
+The real Traveler Reader v1.3.1 crop for log 130813004 is 2798 x 2162 on
+the Nova server. Its printed rows are about 110 pixels high, which exceeded
+the v1.3.4.4 fixed 90-pixel row-height ceiling.
+
+The crop also begins inside the left Repaired column, so the physical
+table-left border is outside the crop. v1.3.4.4.1 now detects this clipped-left
+layout and interprets the first two visible vertical lines as:
+
+1. Repaired/Replaced divider
+2. Description-column divider
+
+Detection output is written under `vision_extraction_v1_3_4_4_1`, while the
+stable downstream discovery file remains `repair_entries_v1_3_4_4.json`.
