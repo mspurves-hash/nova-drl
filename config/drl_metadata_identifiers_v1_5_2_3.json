@@ -1,0 +1,77 @@
+{
+  "version": "1.5.2.3",
+  "description": "Human-confirmed DRL metadata identifiers. These remain visible in historical evidence but are suppressed from terminology review.",
+  "site_codes": [
+    {
+      "code": "MTV",
+      "meaning": "Micron Technology Virginia",
+      "status": "human_confirmed"
+    }
+  ],
+  "technician_initials": [
+    {
+      "initials": "EF",
+      "name": "Erich Franke",
+      "status": "human_confirmed"
+    },
+    {
+      "initials": "VT",
+      "name": "Victor Thomas",
+      "status": "human_confirmed"
+    },
+    {
+      "initials": "SF",
+      "name": "Stefen Franke",
+      "status": "human_confirmed"
+    },
+    {
+      "initials": "MP",
+      "name": "Matt Purves",
+      "status": "human_confirmed"
+    },
+    {
+      "initials": "NP",
+      "name": "Nate Purves",
+      "status": "human_confirmed"
+    },
+    {
+      "initials": "RB",
+      "name": "Roger Bingham",
+      "status": "human_confirmed"
+    },
+    {
+      "initials": "AM",
+      "name": "Anthony Moulazimis",
+      "status": "human_confirmed"
+    },
+    {
+      "initials": "MB",
+      "name": "Mary Ann Bingham",
+      "status": "human_confirmed"
+    },
+    {
+      "initials": "BP",
+      "name": "Barbara Purves",
+      "status": "human_confirmed"
+    }
+  ],
+  "fixed_identifiers": [
+    "DRL",
+    "RMA",
+    "SN",
+    "OEM",
+    "QA",
+    "RBT",
+    "PDF",
+    "JPG",
+    "JPEG",
+    "PNG",
+    "JSON",
+    "OCR",
+    "PSM",
+    "QDRANT",
+    "MINICPM",
+    "AI"
+  ],
+  "notes": "The queue also reads existing project config/site_codes.json, config/technicians.json and config/oems.json when available."
+}
