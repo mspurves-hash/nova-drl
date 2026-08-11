@@ -1,0 +1,52 @@
+{
+  "glossary_version": "1.5.2.1",
+  "description": "Human-confirmed DRL terminology. Historical wording is preserved; normalized meaning and scope are attached separately.",
+  "entries": [
+    {
+      "raw_term": "BERS",
+      "normalized_meaning": "bearings",
+      "category": "technician_abbreviation",
+      "scope": "DRL_shop",
+      "status": "human_confirmed",
+      "preserve_raw": true,
+      "aliases": [],
+      "notes": "DRL technician shorthand for bearings. Preserve BERS in historical and human-approved wording."
+    },
+    {
+      "raw_term": "Comm's",
+      "normalized_meaning": "commutators",
+      "category": "technician_abbreviation",
+      "scope": "DRL_shop",
+      "status": "human_confirmed",
+      "preserve_raw": true,
+      "aliases": [
+        "Comm\u2019s",
+        "Comms"
+      ],
+      "notes": "Motor commutators. Preserve the historical raw wording."
+    },
+    {
+      "raw_term": "KEAL",
+      "normalized_meaning": "KEAL shipping container",
+      "category": "packaging_term",
+      "scope": "DRL_shop",
+      "status": "human_confirmed",
+      "preserve_raw": true,
+      "aliases": [
+        "Keal"
+      ],
+      "notes": "Packaging/shipping requirement term, not a repair action."
+    },
+    {
+      "raw_term": "FE",
+      "normalized_meaning": "numeric homing value between home-sensor detection by the home flag and subsequent encoder-index detection",
+      "category": "homing_reference_value",
+      "scope": "OEM=GENMARK;equipment=ROBOT",
+      "status": "human_confirmed",
+      "preserve_raw": true,
+      "aliases": [],
+      "notes": "Human-confirmed DRL/Genmark usage. FE is the numeric value returned during homing after the home flag reaches the home sensor and before/when the encoder index is detected. Do not invent an expansion of the letters F-E."
+    }
+  ],
+  "unresolved_terms": []
+}

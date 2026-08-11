@@ -1,0 +1,82 @@
+{
+  "version": "1.5.2.1",
+  "candidate_detection": {
+    "minimum_token_length": 2,
+    "maximum_token_length": 10,
+    "uppercase_acronym_like_only": true,
+    "ignore_patterns": [
+      "^[A-Z]\\d+$",
+      "^\\d+$"
+    ],
+    "ignore_terms": [
+      "DRL",
+      "RMA",
+      "SN",
+      "OEM",
+      "QA",
+      "PDF",
+      "JPG",
+      "JPEG",
+      "PNG",
+      "YES",
+      "NO",
+      "NONE",
+      "NULL",
+      "TRUE",
+      "FALSE",
+      "OK",
+      "NOK",
+      "PASS",
+      "FAIL",
+      "FAILED",
+      "TEST",
+      "LOG",
+      "TECH",
+      "DATE",
+      "RBT",
+      "INC",
+      "LLC",
+      "USA",
+      "ASCII",
+      "JSON",
+      "OCR",
+      "PSM",
+      "QDRANT",
+      "MINICPM",
+      "AI"
+    ]
+  },
+  "field_weights": {
+    "approved_repair_action": 10,
+    "approved_customer_complaint": 9,
+    "structured_repair_action": 8,
+    "diagnostic_note": 8,
+    "special_notes_ocr": 5,
+    "repairs_region_ocr": 2
+  },
+  "priority_formula": {
+    "unique_repair_event_weight": 12,
+    "unique_serial_weight": 4,
+    "unique_model_weight": 3,
+    "year_span_weight": 1,
+    "raw_occurrence_weight": 1,
+    "raw_occurrence_cap_per_event": 3,
+    "ocr_only_penalty": 8
+  },
+  "priority_labels": {
+    "high_score": 100,
+    "medium_score": 35,
+    "high_unique_events": 10,
+    "medium_unique_events": 3
+  },
+  "human_intervention": {
+    "ask_now_only_if_high_priority_and_consequential": true,
+    "consequential_fields": [
+      "approved_repair_action",
+      "approved_customer_complaint",
+      "structured_repair_action",
+      "diagnostic_note"
+    ],
+    "default_behavior": "queue_without_interrupting_processing"
+  }
+}
