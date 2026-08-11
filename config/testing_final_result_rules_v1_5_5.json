@@ -1,0 +1,29 @@
+{
+  "version": "1.5.5",
+  "vision_model": "minicpm-v:latest",
+  "vision_timeout_seconds": 180,
+  "max_vision_image_dimension": 2200,
+  "supporting_document_roles": [
+    "robot_checklist",
+    "robot_test_report",
+    "test_report",
+    "rbt_report"
+  ],
+  "traveler_crop_basenames": [
+    "final_test.png",
+    "shipping_final_ok.png"
+  ],
+  "testing_candidate_policy": {
+    "require_event_specific_mark": true,
+    "printed_template_alone_is_evidence": false,
+    "document_title_alone_is_evidence": false,
+    "minimum_confidence": "medium",
+    "human_review_required": true
+  },
+  "final_result_policy": {
+    "require_explicit_event_specific_result": true,
+    "printed_acceptance_title_alone_is_evidence": false,
+    "human_review_required": true
+  },
+  "qdrant_write_enabled": false
+}
