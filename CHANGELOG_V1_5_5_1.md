@@ -1,0 +1,22 @@
+# v1.5.5.1 Changelog
+
+- Added strict mark-type/result enum validation.
+- Rejects MiniCPM pipe-separated schema echoes.
+- Rejects generic/sentinel event marks.
+- Rejects event marks that look like printed instructions.
+- Traveler final-test/final-OK crops no longer create TESTING_PERFORMED items.
+- Routes hours, dollars and final-condition fields away from testing.
+- Blocks customer complaint/problem fields from FINAL_RESULT.
+- Blocks page/document headers from FINAL_RESULT.
+- Requires explicit final-result context on supporting documents.
+- Adds conflict detection for No Trouble Found vs approved repairs/parts.
+- Adds mutually-exclusive final-disposition conflict detection.
+- Conflicted final approval requires `--acknowledge-conflict`.
+- Adds deterministic signed page-analysis cache.
+- Adds cache manifest and explicit invalidation reporting.
+- Adds testing/final rejection audit file.
+- Adds routed-observation audit file.
+- Preserves all raw MiniCPM output.
+- No source modifications.
+- No final repair summary acceptance.
+- No Qdrant writes.

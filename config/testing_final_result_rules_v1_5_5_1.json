@@ -1,0 +1,102 @@
+{
+  "version": "1.5.5.1",
+  "vision_model": "minicpm-v:latest",
+  "vision_timeout_seconds": 180,
+  "max_vision_image_dimension": 2200,
+  "supporting_document_roles": [
+    "robot_checklist",
+    "robot_test_report",
+    "test_report",
+    "rbt_report"
+  ],
+  "traveler_crop_basenames": [
+    "final_test.png",
+    "shipping_final_ok.png"
+  ],
+  "strict_schema": {
+    "allowed_mark_types": [
+      "checkmark",
+      "x_mark",
+      "initials",
+      "handwritten_value",
+      "circle",
+      "pass_fail_mark",
+      "other"
+    ],
+    "allowed_testing_results": [
+      "pass",
+      "fail",
+      "completed",
+      "recorded_value",
+      "unknown"
+    ],
+    "allowed_final_results": [
+      "pass",
+      "fail",
+      "accepted",
+      "rejected",
+      "final_ok",
+      "other"
+    ],
+    "maximum_event_mark_length": 96,
+    "maximum_step_label_length": 260,
+    "maximum_final_value_length": 260
+  },
+  "testing_candidate_policy": {
+    "require_event_specific_mark": true,
+    "printed_template_alone_is_evidence": false,
+    "document_title_alone_is_evidence": false,
+    "minimum_confidence": "medium",
+    "human_review_required": true,
+    "supporting_document_pages_only": true,
+    "traveler_final_crops_are_not_testing_sources": true
+  },
+  "final_result_policy": {
+    "require_explicit_event_specific_result": true,
+    "printed_acceptance_title_alone_is_evidence": false,
+    "customer_complaint_cannot_be_final_result": true,
+    "supporting_document_requires_explicit_result_context": true,
+    "human_review_required": true,
+    "conflict_ack_required_for_approval": true
+  },
+  "routing": {
+    "administrative_or_final_condition_labels": [
+      "ttl time spent",
+      "total time spent",
+      "ttl money spent",
+      "total money spent",
+      "cleaned",
+      "aligned",
+      "adjusted",
+      "latest firmware applied",
+      "all screws appearance",
+      "warranty sticker applied"
+    ],
+    "traveler_final_disposition_labels": [
+      "passed all tests",
+      "no trouble found",
+      "untestable, inspection only",
+      "untestable inspection only",
+      "final o.k.",
+      "final ok"
+    ]
+  },
+  "conflict_rules": {
+    "no_trouble_found_conflicts_with_approved_repair_actions": true,
+    "no_trouble_found_conflicts_with_approved_parts": true,
+    "mutually_exclusive_final_options": [
+      "passed all tests",
+      "no trouble found",
+      "untestable, inspection only",
+      "untestable inspection only"
+    ]
+  },
+  "cache": {
+    "directory_name": "page_analysis_cache_v1_5_5_1",
+    "signature_includes_prompt": true,
+    "signature_includes_model": true,
+    "signature_includes_image_stat": true,
+    "signature_includes_no_vision_mode": true
+  },
+  "qdrant_write_enabled": false
+}
