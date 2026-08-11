@@ -1,0 +1,35 @@
+{
+  "version": "1.5.6",
+  "required_source_versions": {
+    "testing_final_result": "1.5.5.4",
+    "diagnostic_root_cause": "1.5.4"
+  },
+  "field_states": [
+    "approved",
+    "not_established",
+    "not_available",
+    "pending_review"
+  ],
+  "record_review_states": [
+    "pending",
+    "approved",
+    "hold",
+    "rejected"
+  ],
+  "required_identity_fields": [
+    "log_number",
+    "equipment_type",
+    "oem",
+    "model",
+    "serial_number"
+  ],
+  "qdrant_write_enabled": false,
+  "record_level_qdrant_eligibility_enabled": false,
+  "accept_final_repair_summary": false,
+  "new_ocr_enabled": false,
+  "new_vision_enabled": false,
+  "automatic_fact_creation_enabled": false,
+  "automatic_fact_correction_enabled": false,
+  "not_established_is_valid_knowledge_state": true,
+  "approval_requires_zero_hard_errors": true
+}
