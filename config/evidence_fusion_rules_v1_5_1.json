@@ -1,0 +1,20 @@
+{
+  "version": "1.5.1",
+  "repair_actions": {
+    "primary_source": "structured Traveler Reader v1.3.4.x repair rows",
+    "raw_region_ocr_may_create_action_facts": false,
+    "internal_checklist_notes_support_threshold": 0.86,
+    "human_review_mode": "item_level",
+    "automatic_approval": false,
+    "parts_parsing_enabled": false,
+    "root_cause_inference_enabled": false
+  },
+  "prior_review_import": {
+    "default_source": "output/evidence_fusion_v1_5",
+    "preserve_prior_customer_complaint_approval": true
+  },
+  "qdrant": {
+    "write_enabled": false,
+    "human_approval_required": true
+  }
+}
