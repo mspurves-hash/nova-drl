@@ -1,0 +1,31 @@
+{
+  "version": "1.5.2.2",
+  "description": "Known metadata identifiers suppressed from terminology review. These remain available as evidence/metadata and are not treated as repair terminology.",
+  "site_codes": [
+    {
+      "code": "MTV",
+      "meaning": "Micron Technology Virginia",
+      "status": "human_confirmed"
+    }
+  ],
+  "fixed_identifiers": [
+    "DRL",
+    "RMA",
+    "SN",
+    "OEM",
+    "QA",
+    "RBT",
+    "PDF",
+    "JPG",
+    "JPEG",
+    "PNG",
+    "JSON",
+    "OCR",
+    "PSM",
+    "QDRANT",
+    "MINICPM",
+    "AI"
+  ],
+  "technician_initials": [],
+  "notes": "The queue also reads existing project config/site_codes.json, config/technicians.json and config/oems.json when available."
+}
