@@ -42,7 +42,7 @@ import cv2
 import numpy as np
 from PIL import Image, ImageOps, ImageFilter
 
-VERSION = "1.3.4.4.2"
+VERSION = "1.3.4.4.3"
 DEFAULT_MODEL = "minicpm-v:latest"
 OLLAMA_URL = "http://127.0.0.1:11434/api/generate"
 
@@ -160,11 +160,22 @@ def reconstruct_missing_horizontal_lines(records):
         multiple = max(1, int(round(gap / pitch)))
         local_step = gap / multiple
 
+        # The first large gap in older DRL crops is often the *printed table
+        # header* ("Repaired / Replaced / Detailed description..."), not
+        # missing physical repair rows. Do not interpolate that leading header
+        # span when later gaps establish the normal row pitch.
+        leading_header_span = (
+            index == 0
+            and multiple >= 2
+            and len(ordered) >= 5
+        )
+
         # Only fill a genuine missing-line gap. Normal single-row gaps are
         # left alone. The local step must remain close to the established
         # physical row pitch.
         if (
-            multiple >= 2
+            not leading_header_span
+            and multiple >= 2
             and multiple <= 8
             and 0.78 * pitch <= local_step <= 1.22 * pitch
         ):
@@ -494,6 +505,146 @@ def physical_row_mark_scores(image, layout):
     return scores
 
 
+def start_mark_components(image, layout):
+    """
+    Detect actual handwritten X/mark components in the Repaired/Replaced area.
+
+    Row-level ink totals are intentionally NOT used to choose logical starts.
+    Multi-line handwriting can drift into the narrow action columns and create
+    false marked rows. A genuine repair-start X is a comparatively large,
+    dense 2-D connected component.
+    """
+    arr = np.array(image.convert("RGB"))
+    gray = cv2.cvtColor(arr, cv2.COLOR_RGB2GRAY)
+    hsv = cv2.cvtColor(arr, cv2.COLOR_RGB2HSV)
+    saturation = hsv[:, :, 1]
+
+    mask = (
+        (gray < 190) | ((saturation > 35) & (gray < 240))
+    ).astype(np.uint8) * 255
+
+    body_lines = layout["body_lines"]
+    vertical = layout["vertical_lines"]
+
+    for y in body_lines:
+        mask[max(0, y - 3): min(mask.shape[0], y + 4), :] = 0
+    for x in vertical:
+        mask[:, max(0, x - 3): min(mask.shape[1], x + 4)] = 0
+
+    x0 = int(layout["table_left"])
+    x2 = int(layout["description_left"])
+    y0 = int(body_lines[0])
+    y1 = int(body_lines[-1])
+
+    sub = mask[y0:y1, x0:x2].copy()
+    count, labels, stats, centroids = cv2.connectedComponentsWithStats(
+        sub, connectivity=8
+    )
+
+    action_width = max(1, x2 - x0)
+    row_pitch = float(layout.get("median_row_height") or 1.0)
+
+    min_width = max(12, int(action_width * 0.16))
+    min_height = max(12, int(row_pitch * 0.32))
+    max_height = max(min_height + 1, int(row_pitch * 1.35))
+    min_density = 0.085
+    min_area = max(40, int(action_width * row_pitch * 0.0045))
+
+    candidates = []
+    rejected = []
+
+    for label in range(1, count):
+        x, y, w, h, area = [int(v) for v in stats[label]]
+        if w <= 0 or h <= 0:
+            continue
+
+        density = float(area) / float(w * h)
+        abs_x = x0 + x
+        abs_y = y0 + y
+        center_x = x0 + float(centroids[label][0])
+        center_y = y0 + float(centroids[label][1])
+
+        reasons = []
+        if w < min_width:
+            reasons.append("too_narrow")
+        if h < min_height:
+            reasons.append("too_short")
+        if h > max_height:
+            reasons.append("too_tall")
+        if area < min_area:
+            reasons.append("too_little_ink")
+        if density < min_density:
+            reasons.append("too_sparse")
+
+        record = {
+            "component_label": label,
+            "bbox": [abs_x, abs_y, w, h],
+            "area": area,
+            "density": round(density, 5),
+            "center_x": round(center_x, 2),
+            "center_y": round(center_y, 2),
+            "accepted_as_start_marker": not reasons,
+            "rejection_reasons": reasons,
+        }
+
+        if reasons:
+            rejected.append(record)
+            continue
+
+        physical_row = None
+        for row_index, (top, bottom) in enumerate(
+            zip(body_lines[:-1], body_lines[1:]),
+            start=1,
+        ):
+            if top <= center_y < bottom:
+                physical_row = row_index
+                break
+
+        if physical_row is None:
+            record["accepted_as_start_marker"] = False
+            record["rejection_reasons"] = ["center_outside_physical_rows"]
+            rejected.append(record)
+            continue
+
+        record["physical_row"] = physical_row
+        record["marker_score"] = round(
+            area * density * (w / max(1.0, action_width)),
+            3,
+        )
+        candidates.append(record)
+
+    # Fragmented pieces in the same physical row are one start mark.
+    best_by_row = {}
+    for candidate in candidates:
+        row = candidate["physical_row"]
+        current = best_by_row.get(row)
+        if current is None or candidate["marker_score"] > current["marker_score"]:
+            best_by_row[row] = candidate
+
+    starts = [best_by_row[row] for row in sorted(best_by_row)]
+
+    diagnostics = {
+        "action_column_width": action_width,
+        "row_pitch": round(row_pitch, 3),
+        "thresholds": {
+            "min_width": min_width,
+            "min_height": min_height,
+            "max_height": max_height,
+            "min_area": min_area,
+            "min_density": min_density,
+        },
+        "accepted_components": starts,
+        "all_qualifying_components": candidates,
+        "rejected_component_count": len(rejected),
+        "strongest_rejected_components": sorted(
+            rejected,
+            key=lambda row: row["area"],
+            reverse=True,
+        )[:20],
+    }
+    return starts, diagnostics
+
+
 def consolidate_mark_rows(row_scores):
     marked_indexes = [
         index
@@ -522,23 +673,36 @@ def consolidate_mark_rows(row_scores):
     return starts, groups
 
 
-def build_blocks(image, layout, row_scores):
-    starts, groups = consolidate_mark_rows(row_scores)
+def build_blocks(image, layout, row_scores=None, start_markers=None):
+    """
+    Build logical repair blocks from actual start-marker components.
+
+    `row_scores` remains available for diagnostics/backward-compatible callers,
+    but it no longer controls the split.
+    """
+    if start_markers is None:
+        start_markers, _ = start_mark_components(image, layout)
+
     body_lines = layout["body_lines"]
+    start_indexes = [
+        int(marker["physical_row"]) - 1
+        for marker in start_markers
+    ]
 
     blocks = []
-    for number, start_index in enumerate(starts, start=1):
+    for number, (start_index, marker) in enumerate(
+        zip(start_indexes, start_markers),
+        start=1,
+    ):
         next_index = (
-            starts[number]
-            if number < len(starts)
+            start_indexes[number]
+            if number < len(start_indexes)
             else len(body_lines) - 1
         )
 
         top = body_lines[start_index]
         bottom = body_lines[next_index]
 
-        # Small padding remains inside the table, so the next repair-start mark
-        # cannot bleed into the preceding block.
         pad = 3
         full_box = (
             max(0, layout["table_left"] - pad),
@@ -558,9 +722,8 @@ def build_blocks(image, layout, row_scores):
                 "entry_index": number,
                 "start_physical_row": start_index + 1,
                 "end_physical_row": next_index,
-                "start_mark_group_rows": [
-                    index + 1 for index in groups[number - 1]
-                ],
+                "start_mark_group_rows": [start_index + 1],
+                "start_marker_component": marker,
                 "full_box": list(full_box),
                 "description_box": list(description_box),
                 "height_pixels": int(bottom - top),
@@ -771,7 +934,7 @@ def locate_repairs_crop(log_dir):
 
 def process_log(log_dir, log_number, model, detect_only, expected_entries=None):
     crop_path = locate_repairs_crop(log_dir)
-    output_dir = log_dir / "vision_extraction_v1_3_4_4_2"
+    output_dir = log_dir / "vision_extraction_v1_3_4_4_3"
     output_dir.mkdir(parents=True, exist_ok=True)
 
     metadata = source_metadata(log_dir)
@@ -816,7 +979,15 @@ def process_log(log_dir, log_number, model, detect_only, expected_entries=None):
         return record
 
     row_scores = physical_row_mark_scores(image, layout)
-    blocks = build_blocks(image, layout, row_scores)
+    start_markers, start_marker_diagnostics = start_mark_components(
+        image, layout
+    )
+    blocks = build_blocks(
+        image,
+        layout,
+        row_scores=row_scores,
+        start_markers=start_markers,
+    )
 
     expected_match = (
         expected_entries is None or len(blocks) == int(expected_entries)
@@ -832,6 +1003,7 @@ def process_log(log_dir, log_number, model, detect_only, expected_entries=None):
         "method": "variable_height_repair_blocks",
         "layout": layout,
         "row_mark_scores": row_scores,
+        "start_marker_detection": start_marker_diagnostics,
         "logical_start_count": len(blocks),
         "expected_entries": expected_entries,
         "expected_entry_count_match": expected_match,
