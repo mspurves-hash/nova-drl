@@ -1,0 +1,14 @@
+{
+  "version": "1.5.0",
+  "customer_complaint": {
+    "cluster_similarity_threshold": 0.82,
+    "strong_agreement_minimum_similarity": 0.95,
+    "minimum_independent_sources_for_review": 2,
+    "high_confidence_independent_sources": 3,
+    "automatic_approval": false
+  },
+  "qdrant": {
+    "write_enabled": false,
+    "human_approval_required": true
+  }
+}
