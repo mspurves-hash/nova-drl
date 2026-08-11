@@ -1,0 +1,97 @@
+{
+  "version": "1.5.5.4",
+  "method": "tesseract_label_anchor_plus_masked_relative_field_vision",
+  "absolute_pixel_coordinates_used": false,
+  "profiles": {
+    "DRL_TRAVELER_FINAL_TEST": {
+      "fields": [
+        {
+          "field_id": "passed_all_tests",
+          "label": "Passed All Tests",
+          "aliases": [
+            "Pass All Tests",
+            "Passed all tests"
+          ],
+          "canonical_value": "Passed All Tests",
+          "canonical_result": "pass",
+          "mutually_exclusive_group": "final_test_disposition",
+          "crop": {
+            "left_height_multiplier": 5.0,
+            "right_height_multiplier": 5.0,
+            "top_height_multiplier": 1.5,
+            "bottom_height_multiplier": 1.5
+          }
+        },
+        {
+          "field_id": "no_trouble_found",
+          "label": "No Trouble Found",
+          "aliases": [
+            "No Trouble Found"
+          ],
+          "canonical_value": "No Trouble Found",
+          "canonical_result": "no_trouble_found",
+          "mutually_exclusive_group": "final_test_disposition",
+          "crop": {
+            "left_height_multiplier": 5.0,
+            "right_height_multiplier": 5.0,
+            "top_height_multiplier": 1.5,
+            "bottom_height_multiplier": 1.5
+          }
+        },
+        {
+          "field_id": "untestable_inspection_only",
+          "label": "Untestable, Inspection Only",
+          "aliases": [
+            "Untestable Inspection Only",
+            "Untestable, Inspection Only"
+          ],
+          "canonical_value": "Untestable, Inspection Only",
+          "canonical_result": "untestable_inspection_only",
+          "mutually_exclusive_group": "final_test_disposition",
+          "crop": {
+            "left_height_multiplier": 5.0,
+            "right_height_multiplier": 5.0,
+            "top_height_multiplier": 1.5,
+            "bottom_height_multiplier": 1.5
+          }
+        }
+      ]
+    },
+    "DRL_TRAVELER_SHIPPING_FINAL_OK": {
+      "fields": [
+        {
+          "field_id": "final_ok",
+          "label": "Final O.K.",
+          "aliases": [
+            "Final OK",
+            "Final O.K",
+            "FINAL OK"
+          ],
+          "canonical_value": "Final O.K.",
+          "canonical_result": "final_ok",
+          "mutually_exclusive_group": null,
+          "ignore_nearby_values": [
+            "final testing duration",
+            "duration value in neighboring field"
+          ],
+          "crop": {
+            "left_height_multiplier": 1.5,
+            "right_height_multiplier": 4.0,
+            "top_height_multiplier": 0.9,
+            "bottom_height_multiplier": 0.9
+          },
+          "global_ignore_policy": "ignore_final_testing_duration",
+          "mask_ocr_patterns": [
+            "48\\+"
+          ],
+          "mark_validation": {
+            "require_literal_event_mark": true,
+            "reject_schema_placeholder_marks": true,
+            "initials_regex": "^[A-Za-z]{1,4}(?:/[A-Za-z]{1,4})?$",
+            "numeric_or_duration_value_cannot_be_initials": true
+          }
+        }
+      ]
+    }
+  }
+}

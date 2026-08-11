@@ -1,0 +1,26 @@
+{
+  "version": "1.5.5.4",
+  "policy_id": "ignore_final_testing_duration",
+  "status": "human_directed_global_ignore",
+  "scope": [
+    "testing_performed",
+    "final_result",
+    "field_association",
+    "technician_initials",
+    "date",
+    "terminology_discovery",
+    "future_qdrant_knowledge"
+  ],
+  "source_field": "final testing duration",
+  "match_patterns": [
+    "48\\+",
+    "48\\+\\s*(?:hours?|hrs?)",
+    "hours?\\s+in\\s+final\\s+testing",
+    "final\\s+testing\\s+duration"
+  ],
+  "preserve_original_source_file": true,
+  "preserve_machine_audit_record": true,
+  "promote_to_repair_knowledge": false,
+  "use_as_context_for_neighboring_fields": false,
+  "qdrant_entry_created": false
+}
