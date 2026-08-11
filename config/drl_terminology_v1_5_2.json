@@ -1,0 +1,47 @@
+{
+  "glossary_version": "1.5.2",
+  "description": "Human-confirmed DRL shop terminology. Raw wording is preserved; normalized meaning is attached separately.",
+  "entries": [
+    {
+      "raw_term": "BERS",
+      "normalized_meaning": "bearings",
+      "category": "technician_abbreviation",
+      "scope": "DRL_shop",
+      "status": "human_confirmed",
+      "preserve_raw": true,
+      "aliases": [],
+      "notes": "Technician shorthand observed on historical travelers. Do not replace BERS in source or approved wording."
+    },
+    {
+      "raw_term": "Comm's",
+      "normalized_meaning": "commutators",
+      "category": "technician_abbreviation",
+      "scope": "DRL_shop",
+      "status": "human_confirmed",
+      "preserve_raw": true,
+      "aliases": [
+        "Comm\u2019s",
+        "Comms"
+      ],
+      "notes": "Motor commutators. Preserve the historical raw wording."
+    },
+    {
+      "raw_term": "KEAL",
+      "normalized_meaning": "KEAL shipping container",
+      "category": "packaging_term",
+      "scope": "DRL_shop",
+      "status": "human_confirmed",
+      "preserve_raw": true,
+      "aliases": [
+        "Keal"
+      ],
+      "notes": "Packaging/shipping term, not a repair action."
+    }
+  ],
+  "unresolved_terms": [
+    {
+      "raw_term": "FE",
+      "reason": "Meaning not normalized in v1.5.2. Preserve raw wording until DRL-specific meaning is explicitly confirmed."
+    }
+  ]
+}
