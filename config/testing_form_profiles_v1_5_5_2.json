@@ -1,0 +1,67 @@
+{
+  "version": "1.5.5.2",
+  "profiles": {
+    "DRL_INTERNAL_CHECKLIST": {
+      "source_roles": [
+        "robot_checklist"
+      ],
+      "x_check_semantics": "completion_not_fail",
+      "testing_roles": [
+        "test",
+        "inspection"
+      ],
+      "routed_roles": [
+        "setup",
+        "procedure"
+      ],
+      "final_result_from_document_title": false
+    },
+    "DRL_ACCEPTANCE_TEST_REPORT": {
+      "source_roles": [
+        "robot_test_report",
+        "test_report",
+        "rbt_report"
+      ],
+      "x_check_semantics": "completion_not_fail_unless_explicit_result_field",
+      "testing_roles": [
+        "test",
+        "inspection"
+      ],
+      "routed_roles": [
+        "setup",
+        "procedure"
+      ],
+      "pass_fail_requires_explicit_selection": true
+    },
+    "DRL_TRAVELER_FINAL_TEST": {
+      "source_basename": "final_test.png",
+      "testing_source": false,
+      "known_final_disposition_labels": [
+        "Passed All Tests",
+        "No Trouble Found",
+        "Untestable, Inspection Only"
+      ],
+      "administrative_or_condition_labels": [
+        "Ttl Time Spent (Hours)",
+        "Ttl Money Spent (Dollars)",
+        "Cleaned",
+        "Aligned",
+        "Adjusted",
+        "Latest Firmware Applied",
+        "All Screws Appearance",
+        "Warranty Sticker Applied"
+      ],
+      "mutually_exclusive_dispositions": true
+    },
+    "DRL_TRAVELER_SHIPPING_FINAL_OK": {
+      "source_basename": "shipping_final_ok.png",
+      "testing_source": false,
+      "known_final_disposition_labels": [
+        "Final O.K.",
+        "Final OK"
+      ],
+      "compact_handwritten_mark_allowed": true
+    }
+  },
+  "note": "No hard-coded pixel coordinates are invented in v1.5.5.2. Form awareness is based on known DRL document family, source crop, field label, mark type, semantic role, and association basis."
+}

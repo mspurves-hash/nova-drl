@@ -1,0 +1,100 @@
+{
+  "version": "1.5.5.2",
+  "vision_model": "minicpm-v:latest",
+  "vision_timeout_seconds": 180,
+  "max_vision_image_dimension": 2200,
+  "supporting_document_roles": [
+    "robot_checklist",
+    "robot_test_report",
+    "test_report",
+    "rbt_report"
+  ],
+  "traveler_crop_basenames": [
+    "final_test.png",
+    "shipping_final_ok.png"
+  ],
+  "strict_schema": {
+    "allowed_mark_types": [
+      "checkmark",
+      "x_mark",
+      "initials",
+      "handwritten_value",
+      "circle",
+      "pass_fail_mark",
+      "other"
+    ],
+    "allowed_testing_results": [
+      "pass",
+      "fail",
+      "completed",
+      "recorded_value",
+      "unknown"
+    ],
+    "allowed_final_results": [
+      "pass",
+      "fail",
+      "accepted",
+      "rejected",
+      "final_ok",
+      "no_trouble_found",
+      "untestable_inspection_only",
+      "other"
+    ],
+    "allowed_testing_semantic_roles": [
+      "test",
+      "inspection",
+      "setup",
+      "procedure",
+      "unknown"
+    ],
+    "allowed_final_semantic_roles": [
+      "final_disposition",
+      "final_result_field",
+      "unknown"
+    ],
+    "allowed_association_basis": [
+      "same_row",
+      "same_box",
+      "adjacent_label",
+      "selected_option",
+      "unknown"
+    ],
+    "maximum_event_mark_length": 96,
+    "maximum_step_label_length": 300,
+    "maximum_final_value_length": 300
+  },
+  "form_semantics": {
+    "checklist_completion_marks_do_not_mean_fail": true,
+    "x_or_checkmark_defaults_to_completed_for_test_or_inspection_steps": true,
+    "pass_fail_requires_explicit_result_field_or_selected_result": true,
+    "generic_pass_fail_choice_is_not_a_result": true,
+    "traveler_final_disposition_options_are_mutually_exclusive": true,
+    "known_final_fields_only_for_traveler_crops": true
+  },
+  "testing_candidate_policy": {
+    "require_event_specific_mark": true,
+    "printed_template_alone_is_evidence": false,
+    "minimum_confidence": "medium",
+    "human_review_required": true,
+    "supporting_document_pages_only": true,
+    "traveler_final_crops_are_not_testing_sources": true,
+    "route_setup_and_procedure_steps_away_from_testing": true
+  },
+  "final_result_policy": {
+    "require_explicit_event_specific_result": true,
+    "printed_acceptance_title_alone_is_evidence": false,
+    "customer_complaint_cannot_be_final_result": true,
+    "supporting_document_requires_explicit_result_field": true,
+    "known_traveler_disposition_field_required": true,
+    "human_review_required": true,
+    "conflict_ack_required_for_approval": true
+  },
+  "cache": {
+    "directory_name": "page_analysis_cache_v1_5_5_2",
+    "signature_includes_prompt": true,
+    "signature_includes_model": true,
+    "signature_includes_image_stat": true,
+    "signature_includes_no_vision_mode": true
+  },
+  "qdrant_write_enabled": false
+}
