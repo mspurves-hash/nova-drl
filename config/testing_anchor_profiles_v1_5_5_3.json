@@ -1,0 +1,88 @@
+{
+  "version": "1.5.5.3",
+  "method": "tesseract_label_anchor_plus_relative_local_vision",
+  "absolute_pixel_coordinates_used": false,
+  "profiles": {
+    "DRL_TRAVELER_FINAL_TEST": {
+      "fields": [
+        {
+          "field_id": "passed_all_tests",
+          "label": "Passed All Tests",
+          "aliases": [
+            "Pass All Tests",
+            "Passed all tests"
+          ],
+          "canonical_value": "Passed All Tests",
+          "canonical_result": "pass",
+          "mutually_exclusive_group": "final_test_disposition",
+          "crop": {
+            "left_height_multiplier": 5.0,
+            "right_height_multiplier": 5.0,
+            "top_height_multiplier": 1.5,
+            "bottom_height_multiplier": 1.5
+          }
+        },
+        {
+          "field_id": "no_trouble_found",
+          "label": "No Trouble Found",
+          "aliases": [
+            "No Trouble Found"
+          ],
+          "canonical_value": "No Trouble Found",
+          "canonical_result": "no_trouble_found",
+          "mutually_exclusive_group": "final_test_disposition",
+          "crop": {
+            "left_height_multiplier": 5.0,
+            "right_height_multiplier": 5.0,
+            "top_height_multiplier": 1.5,
+            "bottom_height_multiplier": 1.5
+          }
+        },
+        {
+          "field_id": "untestable_inspection_only",
+          "label": "Untestable, Inspection Only",
+          "aliases": [
+            "Untestable Inspection Only",
+            "Untestable, Inspection Only"
+          ],
+          "canonical_value": "Untestable, Inspection Only",
+          "canonical_result": "untestable_inspection_only",
+          "mutually_exclusive_group": "final_test_disposition",
+          "crop": {
+            "left_height_multiplier": 5.0,
+            "right_height_multiplier": 5.0,
+            "top_height_multiplier": 1.5,
+            "bottom_height_multiplier": 1.5
+          }
+        }
+      ]
+    },
+    "DRL_TRAVELER_SHIPPING_FINAL_OK": {
+      "fields": [
+        {
+          "field_id": "final_ok",
+          "label": "Final O.K.",
+          "aliases": [
+            "Final OK",
+            "Final O.K",
+            "FINAL OK"
+          ],
+          "canonical_value": "Final O.K.",
+          "canonical_result": "final_ok",
+          "mutually_exclusive_group": null,
+          "ignore_nearby_values": [
+            "48+",
+            "48+ hours",
+            "hours in final testing"
+          ],
+          "crop": {
+            "left_height_multiplier": 5.0,
+            "right_height_multiplier": 7.0,
+            "top_height_multiplier": 1.75,
+            "bottom_height_multiplier": 1.75
+          }
+        }
+      ]
+    }
+  }
+}
