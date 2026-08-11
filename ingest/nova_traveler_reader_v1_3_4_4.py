@@ -42,7 +42,7 @@ import cv2
 import numpy as np
 from PIL import Image, ImageOps, ImageFilter
 
-VERSION = "1.3.4.4.1"
+VERSION = "1.3.4.4.2"
 DEFAULT_MODEL = "minicpm-v:latest"
 OLLAMA_URL = "http://127.0.0.1:11434/api/generate"
 
@@ -84,6 +84,117 @@ def cluster_positions(values, tolerance=4):
         else:
             groups[-1].append(value)
     return [int(round(sum(group) / len(group))) for group in groups]
+
+
+def estimate_horizontal_grid_pitch(records):
+    """
+    Estimate the physical repair-row pitch from the shortest repeated
+    full-width horizontal-line gaps.
+
+    High-resolution scans may lose some row lines where handwriting crosses
+    the printed rule. The surviving adjacent gaps are typically either one
+    row pitch or an integer multiple of it.
+    """
+    ys = sorted(int(row["y"]) for row in records)
+    if len(ys) < 4:
+        return None
+
+    gaps = [
+        ys[index + 1] - ys[index]
+        for index in range(len(ys) - 1)
+        if ys[index + 1] > ys[index]
+    ]
+    if len(gaps) < 3:
+        return None
+
+    ordered = sorted(gaps)
+    sample_count = max(3, int(math.ceil(len(ordered) * 0.60)))
+    sample = ordered[:sample_count]
+
+    # Ignore very small decorative/duplicate gaps if enough normal-sized
+    # candidates remain.
+    median_all = statistics.median(sample)
+    filtered = [
+        gap for gap in sample
+        if gap >= max(8, median_all * 0.45)
+    ]
+    if len(filtered) >= 3:
+        sample = filtered
+
+    return float(statistics.median(sample))
+
+
+def reconstruct_missing_horizontal_lines(records):
+    """
+    Reconstruct repair-table horizontal rules missing from morphology.
+
+    A gap is filled only when it is close to an integer multiple of the
+    observed row pitch. The actual surviving line positions remain untouched.
+    Missing positions are interpolated locally between the two surviving
+    boundaries, allowing mild scan perspective/stretch.
+    """
+    if len(records) < 4:
+        return list(records), {
+            "pitch": None,
+            "inserted_y": [],
+            "status": "insufficient_lines",
+        }
+
+    pitch = estimate_horizontal_grid_pitch(records)
+    if not pitch:
+        return list(records), {
+            "pitch": None,
+            "inserted_y": [],
+            "status": "pitch_not_established",
+        }
+
+    ordered = sorted(records, key=lambda row: row["y"])
+    output = []
+    inserted = []
+
+    for index, left in enumerate(ordered[:-1]):
+        right = ordered[index + 1]
+        output.append(dict(left))
+
+        gap = float(right["y"] - left["y"])
+        multiple = max(1, int(round(gap / pitch)))
+        local_step = gap / multiple
+
+        # Only fill a genuine missing-line gap. Normal single-row gaps are
+        # left alone. The local step must remain close to the established
+        # physical row pitch.
+        if (
+            multiple >= 2
+            and multiple <= 8
+            and 0.78 * pitch <= local_step <= 1.22 * pitch
+        ):
+            for step_index in range(1, multiple):
+                y = int(round(left["y"] + local_step * step_index))
+                inserted.append(y)
+                output.append({
+                    "y": y,
+                    "x": min(int(left.get("x", 0)), int(right.get("x", 0))),
+                    "width": max(
+                        int(left.get("width", 0)),
+                        int(right.get("width", 0)),
+                    ),
+                    "height": 1,
+                    "reconstructed": True,
+                    "between_detected_y": [
+                        int(left["y"]),
+                        int(right["y"]),
+                    ],
+                })
+
+    output.append(dict(ordered[-1]))
+    output = sorted(output, key=lambda row: row["y"])
+
+    return output, {
+        "pitch": round(pitch, 3),
+        "inserted_y": inserted,
+        "inserted_count": len(inserted),
+        "status": "ok",
+    }
 
 
 def horizontal_line_records(image):
@@ -214,7 +325,10 @@ def vertical_line_positions(image, body_lines):
 
 
 def detect_table_layout(image):
-    records = horizontal_line_records(image)
+    detected_records = horizontal_line_records(image)
+    records, reconstruction = reconstruct_missing_horizontal_lines(
+        detected_records
+    )
     body_lines = find_regular_body_run(records)
 
     if len(body_lines) < 5:
@@ -225,6 +339,10 @@ def detect_table_layout(image):
             "table_left": None,
             "description_left": None,
             "table_right": None,
+            "horizontal_lines_detected": [
+                int(row["y"]) for row in detected_records
+            ],
+            "horizontal_line_reconstruction": reconstruction,
         }
 
     first_body_y = body_lines[0]
@@ -298,6 +416,10 @@ def detect_table_layout(image):
         "crop_right_clipped": crop_right_clipped,
         "physical_row_count": len(body_lines) - 1,
         "median_row_height": statistics.median(row_heights),
+        "horizontal_lines_detected": [
+            int(row["y"]) for row in detected_records
+        ],
+        "horizontal_line_reconstruction": reconstruction,
     }
 
 
@@ -649,7 +771,7 @@ def locate_repairs_crop(log_dir):
 
 def process_log(log_dir, log_number, model, detect_only, expected_entries=None):
     crop_path = locate_repairs_crop(log_dir)
-    output_dir = log_dir / "vision_extraction_v1_3_4_4_1"
+    output_dir = log_dir / "vision_extraction_v1_3_4_4_2"
     output_dir.mkdir(parents=True, exist_ok=True)
 
     metadata = source_metadata(log_dir)
