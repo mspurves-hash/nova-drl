@@ -1,0 +1,21 @@
+{
+  "version": "1.3.5.0",
+  "evidence_object": "original_full_traveler_image",
+  "crop_sections": false,
+  "relevance_boxes": false,
+  "row_column_geometry": false,
+  "mark_gating": false,
+  "preserve_all_visible_text": true,
+  "preserve_repeated_template_text": true,
+  "preserve_raw_machine_response": true,
+  "infer_unstated_quantities": false,
+  "automatic_fact_acceptance": false,
+  "qdrant_write_enabled": false,
+  "future_corpus_policy": {
+    "deduplicate_scans_before_frequency_counts": true,
+    "learn_repeated_template_from_multiple_travelers": true,
+    "keep_ambiguous_items_separate_until_supported": true,
+    "separate_actions_from_parts": true,
+    "classify_relevance_after_collection": true
+  }
+}
