@@ -1,0 +1,96 @@
+{
+  "glossary_version": "1.5.2.4",
+  "description": "Human-confirmed DRL terminology. Historical wording is preserved; normalized meaning and scope are attached separately. v1.5.2.4 preserves the frozen v1.5.2.3 terminology baseline and adds the human-confirmed DRL shop term Blue Schmoo's -> special shim.",
+  "entries": [
+    {
+      "raw_term": "BERS",
+      "normalized_meaning": "bearings",
+      "category": "technician_abbreviation",
+      "scope": "DRL_shop",
+      "status": "human_confirmed",
+      "preserve_raw": true,
+      "aliases": [],
+      "notes": "DRL technician shorthand for bearings. Preserve BERS in historical and human-approved wording."
+    },
+    {
+      "raw_term": "Comm's",
+      "normalized_meaning": "commutators",
+      "category": "technician_abbreviation",
+      "scope": "DRL_shop",
+      "status": "human_confirmed",
+      "preserve_raw": true,
+      "aliases": [
+        "Comm’s",
+        "Comms"
+      ],
+      "notes": "Motor commutators. Preserve the historical raw wording."
+    },
+    {
+      "raw_term": "KEAL",
+      "normalized_meaning": "KEAL shipping container",
+      "category": "packaging_term",
+      "scope": "DRL_shop",
+      "status": "human_confirmed",
+      "preserve_raw": true,
+      "aliases": [
+        "Keal"
+      ],
+      "notes": "Packaging/shipping requirement term, not a repair action."
+    },
+    {
+      "raw_term": "FE",
+      "normalized_meaning": "numeric homing value between home-sensor detection by the home flag and subsequent encoder-index detection",
+      "category": "homing_reference_value",
+      "scope": "OEM=GENMARK;equipment=ROBOT",
+      "status": "human_confirmed",
+      "preserve_raw": true,
+      "aliases": [],
+      "notes": "Human-confirmed Genmark usage. Do not invent an expansion of the letters F-E."
+    },
+    {
+      "raw_term": "FA RPT",
+      "normalized_meaning": "Failure Analysis Report",
+      "category": "compound_abbreviation",
+      "scope": "DRL_shop",
+      "status": "human_confirmed",
+      "preserve_raw": true,
+      "aliases": [],
+      "notes": "Human-confirmed DRL phrase. Preserve the historical phrase FA RPT while attaching Failure Analysis Report as meaning."
+    },
+    {
+      "raw_term": "FA",
+      "normalized_meaning": "Failure Analysis",
+      "category": "abbreviation",
+      "scope": "DRL_shop",
+      "status": "human_confirmed",
+      "preserve_raw": true,
+      "aliases": [],
+      "notes": "Human-confirmed DRL abbreviation."
+    },
+    {
+      "raw_term": "RPT",
+      "normalized_meaning": "Report",
+      "category": "abbreviation",
+      "scope": "DRL_shop",
+      "status": "human_confirmed",
+      "preserve_raw": true,
+      "aliases": [],
+      "notes": "Human-confirmed DRL abbreviation."
+    },
+    {
+      "raw_term": "Blue Schmoo's",
+      "normalized_meaning": "special shim",
+      "category": "technician_shop_term",
+      "scope": "DRL_shop",
+      "status": "human_confirmed",
+      "preserve_raw": true,
+      "aliases": [
+        "Blue Schmoo",
+        "Blue Schmoos",
+        "Blue Schmoo’s"
+      ],
+      "notes": "Human-confirmed DRL shorthand for a special shim. Preserve Blue Schmoo's in historical and human-approved wording; attach special shim as normalized meaning."
+    }
+  ],
+  "unresolved_terms": []
+}
