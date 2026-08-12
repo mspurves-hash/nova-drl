@@ -1,0 +1,18 @@
+{
+  "version": "1.3.4.4.9",
+  "basis": "Human-highlighted canonical Traveler supplied 2026-08-12",
+  "coordinate_system": "fractions of upright landscape Traveler page",
+  "regions": {
+    "identity_header": [0.060, 0.050, 0.465, 0.335],
+    "repairs_replacements": [0.455, 0.125, 0.845, 0.645],
+    "special_notes": [0.060, 0.485, 0.465, 0.910]
+  },
+  "policy": {
+    "internal_repairs_columns_are_semantic_gates": false,
+    "repaired_replaced_mark_required": false,
+    "printed_grid_inference_required": false,
+    "machine_transcription_is_fact": false,
+    "human_review_required": true,
+    "qdrant_write_enabled": false
+  }
+}
