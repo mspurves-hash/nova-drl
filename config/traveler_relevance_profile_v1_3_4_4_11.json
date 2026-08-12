@@ -1,0 +1,22 @@
+{
+  "version": "1.3.4.4.11",
+  "basis": "Human-approved Traveler relevance sections captured with intentionally oversized overlapping margins; no handwriting localization",
+  "coordinate_system": "fractions of upright landscape Traveler page",
+  "regions": {
+    "identity_header": [0.0, 0.0, 0.62, 0.56],
+    "repairs_replacements": [0.34, 0.05, 1.0, 0.86],
+    "special_notes": [0.0, 0.30, 0.68, 1.0]
+  },
+  "policy": {
+    "regions_intentionally_oversized": true,
+    "regions_may_overlap": true,
+    "handwriting_localization": false,
+    "internal_text_subboxing": false,
+    "internal_repairs_columns_are_semantic_gates": false,
+    "repaired_replaced_mark_required": false,
+    "printed_grid_inference_required": false,
+    "machine_transcription_is_fact": false,
+    "human_review_required": true,
+    "qdrant_write_enabled": false
+  }
+}
