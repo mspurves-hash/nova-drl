@@ -1,0 +1,18 @@
+{
+  "version": "1.3.4.4.8",
+  "traveler_relevance": {
+    "identity_header": "knowledge_review",
+    "special_notes": "knowledge_review",
+    "repairs_replacements": "knowledge_review",
+    "all_other_traveler_areas": "raw_audit_only"
+  },
+  "repairs_replacements_policy": {
+    "capture_complete_outer_printed_box": true,
+    "internal_columns_have_semantic_role": false,
+    "repaired_replaced_marks_required": false,
+    "transcribe_handwriting_only": true,
+    "preserve_raw_machine_response": true,
+    "automatic_fact_acceptance": false,
+    "qdrant_write_enabled": false
+  }
+}
