@@ -1,0 +1,59 @@
+{
+  "profile_version": "1.3.4.4.6",
+  "profile_name": "DRL_TRAVELER_HUMAN_RELEVANCE_MAP_PRINTED_GRID_NETWORK",
+  "source": "human_defined_highlighted_traveler",
+  "knowledge_sections": {
+    "identity_header": {
+      "role": "event_and_unit_identity_anchor",
+      "fields": [
+        "log_number",
+        "rma_number",
+        "customer_name",
+        "customer_po",
+        "drl_part_number",
+        "serial_number",
+        "board_serial_number",
+        "frame_serial_number"
+      ],
+      "policy": "filled event-specific values may anchor identity; unrelated administrative fields are not repair knowledge"
+    },
+    "special_notes": {
+      "role": "event_specific_notes_and_diagnostic_context",
+      "policy": "preserve the complete Special Notes section; printed boilerplate is template context only; event-specific handwriting or typed additions require human review"
+    },
+    "repairs_replacements": {
+      "role": "primary_repair_action_evidence",
+      "columns": [
+        "repaired",
+        "replaced",
+        "description",
+        "initials",
+        "date"
+      ],
+      "boundary_policy": "the printed table grid network in the original Traveler defines the evidence region; semantic vertical rules establish the full left/right span and repeated horizontal-rule coverage establishes top/bottom; handwriting extent and fixed expansion never define the final crop",
+      "content_policy": "meaningful filled-in description content is preserved even without a repaired/replaced mark; repaired/replaced marks are attributes of content, not admission gates"
+    }
+  },
+  "audit_only_sections": [
+    "packaging_status",
+    "final_unit_test_results_and_notes",
+    "shipping_final_ok",
+    "date_shipped",
+    "hours_in_final_testing",
+    "contact_qc_warranty_administration",
+    "other_unhighlighted_traveler_fields"
+  ],
+  "global_ignores": [
+    {
+      "field": "hours_in_final_testing",
+      "examples": [
+        "48+ hours in Final Testing",
+        "72+ hours in Final Testing"
+      ],
+      "policy": "retain for raw/audit only; never testing evidence, final-result evidence, initials/date evidence, terminology evidence, association signal, or Qdrant knowledge"
+    }
+  ],
+  "detect_only_validation": true,
+  "qdrant_write_enabled": false,
+  "automatic_fact_acceptance": false
+}
