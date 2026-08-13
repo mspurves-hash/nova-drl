@@ -1,0 +1,71 @@
+{
+  "version": "1.3.6.1",
+  "architecture": "acquire_all_then_python_sanitize_then_8b_high_recall_then_32b_reasoning_then_python_accounting",
+  "input_collector_version": "1.3.5.1",
+  "models": {
+    "prospector": "qwen3-vl-drl:8b-q8-16k",
+    "reasoning": "qwen25-drl:32b-16k"
+  },
+  "sanitation_policy": {
+    "raw_transcription_is_modified": false,
+    "routine_form_admin_removed_from_working_view_only": true,
+    "shared_form_label_can_be_prefix_stripped_while_exact_trailing_event_text_is_retained": true,
+    "customer_requirements_are_not_suppressed": true,
+    "per_record_prospecting_view_written": true,
+    "per_record_sanitation_audit_written": true
+  },
+  "evidence_policy": {
+    "raw_transcription_is_immutable_evidence": true,
+    "model_candidates_must_bind_to_prospecting_view_and_rebind_to_raw_transcription": true,
+    "support_modes_allowed": [
+      "exact",
+      "whitespace_only",
+      "whitespace_terminal_punctuation"
+    ],
+    "terminal_punctuation_tolerance": "single model-added period/comma/semicolon/colon only",
+    "silent_spelling_or_term_normalization": false,
+    "silent_apostrophe_normalization": false,
+    "silent_digit_or_part_number_normalization": false,
+    "automatic_fact_acceptance": false,
+    "accepted_fact_count": 0,
+    "qdrant_write_enabled": false
+  },
+  "deterministic_kind_policy": {
+    "customer_requirement_patterns_can_override_model_kind": true,
+    "evidence_text_is_never_rewritten_during_kind_override": true,
+    "group_type_candidate_kind_compatibility_is_enforced_by_python": true
+  },
+  "recurrence_policy": {
+    "minimum_distinct_logs": 2,
+    "minimum_distinct_source_hashes": 2,
+    "llm_is_authority_for_counts": false,
+    "python_is_authority_for_counts": true
+  },
+  "high_value_policy": {
+    "model_unique_ids_are_preserved": true,
+    "deterministic_backup_surfacing": [
+      "customer requirements",
+      "diagnostic/failure evidence",
+      "nontrivial shop terms/abbreviations",
+      "part identifiers",
+      "distinctive named testing/process wording",
+      "repair/component strings with quantity or partlike exact-character risk"
+    ],
+    "trivial_technician_initials_are_not_auto_high_value": true
+  },
+  "ocr_recheck_policy": {
+    "queue_is_provisional_not_approved": true,
+    "queue_exact_character_part_identifiers": true,
+    "queue_unclear_ocr": true,
+    "queue_mixed_alphanumeric_or_partlike_tokens": true,
+    "queue_unsupported_technical_prospector_quotes": true,
+    "automatic_correction": false
+  },
+  "global_exclusions": {
+    "hours_in_final_testing": {
+      "knowledge_sort": "suppressed",
+      "raw_audit": "preserved",
+      "must_not_influence_adjacent_final_ok": true
+    }
+  }
+}
