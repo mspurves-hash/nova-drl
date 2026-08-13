@@ -1,0 +1,31 @@
+{
+  "version": "1.3.6.0",
+  "architecture": "acquire_all_then_8b_high_recall_then_32b_reasoning_then_python_accounting",
+  "input_collector_version": "1.3.5.1",
+  "models": {
+    "prospector": "qwen3-vl-drl:8b-q8-16k",
+    "reasoning": "qwen25-drl:32b-16k"
+  },
+  "evidence_policy": {
+    "raw_transcription_is_immutable_evidence": true,
+    "model_candidates_must_be_supported_by_raw_transcription": true,
+    "support_normalization_allowed": "whitespace_only",
+    "silent_spelling_or_term_normalization": false,
+    "automatic_fact_acceptance": false,
+    "accepted_fact_count": 0,
+    "qdrant_write_enabled": false
+  },
+  "recurrence_policy": {
+    "minimum_distinct_logs": 2,
+    "minimum_distinct_source_hashes": 2,
+    "llm_is_authority_for_counts": false,
+    "python_is_authority_for_counts": true
+  },
+  "global_exclusions": {
+    "hours_in_final_testing": {
+      "knowledge_sort": "suppressed",
+      "raw_audit": "preserved",
+      "must_not_influence_adjacent_final_ok": true
+    }
+  }
+}
