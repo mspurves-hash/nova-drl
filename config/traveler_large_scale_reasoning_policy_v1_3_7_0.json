@@ -1,0 +1,45 @@
+{
+  "version": "1.3.7.0",
+  "input": {
+    "required_sorter_version": "1.3.6.1",
+    "required_status": "prospect_only_complete",
+    "required_reasoning_performed": false,
+    "required_accepted_fact_count": 0,
+    "required_qdrant_entries_created": 0
+  },
+  "reasoning": {
+    "model": "qwen25-drl:32b-16k",
+    "num_ctx": 16384,
+    "stage1_num_predict": 6144,
+    "merge_num_predict": 4096,
+    "stage1_max_chars": 22000,
+    "merge_max_chars": 22000,
+    "merge_overlap_clusters": 3,
+    "max_merge_rounds": 3,
+    "json_retries_after_first_attempt": 2,
+    "temperature": 0,
+    "json_mode": true
+  },
+  "python_authority": {
+    "dynamic_batch_packing": true,
+    "candidate_id_validation": true,
+    "fallback_singletons_on_failed_or_incomplete_batch": true,
+    "hierarchical_merge_union": true,
+    "recurrence_min_distinct_logs": 2,
+    "recurrence_min_distinct_source_hashes": 2,
+    "rank_by_distinct_serials_then_logs": true
+  },
+  "preservation": {
+    "source_images_modified": false,
+    "raw_transcriptions_modified": false,
+    "candidate_raw_evidence_modified": false,
+    "model_labels_are_provisional_only": true,
+    "excluded_candidates_preserved_in_audit": true
+  },
+  "global_policy": {
+    "automatic_fact_acceptance": false,
+    "accepted_fact_count": 0,
+    "qdrant_write_enabled": false,
+    "qdrant_entries_created": 0
+  }
+}
