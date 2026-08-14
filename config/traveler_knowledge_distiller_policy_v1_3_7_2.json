@@ -1,0 +1,33 @@
+{
+  "version": "1.3.7.2",
+  "input": {
+    "required_reasoner_version": "1.3.7.1",
+    "required_accepted_fact_count": 0,
+    "required_qdrant_entries_created": 0,
+    "source_file": "recurring_patterns_v1_3_7_1.json"
+  },
+  "processing": {
+    "new_llm_calls": false,
+    "rank_primary": "distinct_serial_count",
+    "rank_secondary": "distinct_log_count",
+    "rank_tertiary": "candidate_count",
+    "clear_template_noise_suppressed_from_main_view": true,
+    "suppressed_noise_retained_for_audit": true,
+    "service_area_rollups_allow_overlap": true,
+    "stocking_output_is_attention_only_not_bom": true
+  },
+  "preservation": {
+    "source_travelers_modified": false,
+    "raw_transcriptions_modified": false,
+    "v1_3_6_1_evidence_modified": false,
+    "v1_3_7_1_outputs_modified": false,
+    "provenance_retained": true
+  },
+  "global_policy": {
+    "operating_mode": "fast_provisional_80_20",
+    "automatic_fact_acceptance": false,
+    "accepted_fact_count": 0,
+    "qdrant_write_enabled": false,
+    "qdrant_entries_created": 0
+  }
+}
