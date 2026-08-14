@@ -1,0 +1,20 @@
+{
+  "index_version": "1.3.8.1",
+  "source_signal_version": "1.3.7.3",
+  "collection": "nova_drl_gb8_trial_v1_3_8_1",
+  "qdrant_url": "http://localhost:6333",
+  "ollama_url": "http://localhost:11434",
+  "embedding_model": "nomic-embed-text",
+  "distance": "Cosine",
+  "point_scope": "v1.3.7.3 technician recurring groups only",
+  "expected_source_groups": 419,
+  "expected_technician_groups": 314,
+  "expected_reference_groups_not_indexed": 105,
+  "raw_candidates_indexed": 0,
+  "generative_reasoning_calls": 0,
+  "automatic_fact_acceptance": false,
+  "accepted_fact_count": 0,
+  "knowledge_status": "provisional",
+  "qdrant_role": "disposable_semantic_search_index",
+  "rebuild_policy": "Only collection names beginning nova_drl_gb8_trial_ may be deleted by this tool."
+}
