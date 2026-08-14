@@ -1,0 +1,42 @@
+{
+  "version": "1.3.7.3",
+  "name": "Technician Signal Cleaner",
+  "input": {
+    "required_distiller_version": "1.3.7.2",
+    "source_outputs_modified": false,
+    "reconstruct_all_recurring_groups": true
+  },
+  "technician_view": {
+    "included_lanes": ["repairs", "components", "diagnostics", "testing_process"],
+    "reference_only_lanes": ["customer_requirements", "terminology", "other"],
+    "rank_primary": "distinct_serial_count",
+    "rank_secondary": "distinct_log_count",
+    "rank_tertiary": "candidate_count",
+    "service_area_assignment": "concept_label_and_key_only",
+    "service_area_overlap_allowed": true
+  },
+  "stocking_attention": {
+    "eligible_lanes": ["components", "repairs"],
+    "label_match_allowed": true,
+    "evidence_fallback_requires_repeated_explicit_action_logs": 2,
+    "mixed_group_fallback_counts_only_matching_evidence": true,
+    "approved_bom": false
+  },
+  "preservation": {
+    "all_recurring_groups_retained": true,
+    "reference_admin_groups_retained": true,
+    "source_travelers_modified": false,
+    "raw_transcriptions_modified": false,
+    "v1_3_6_1_evidence_modified": false,
+    "v1_3_7_1_recurring_patterns_modified": false,
+    "v1_3_7_2_outputs_modified": false
+  },
+  "global_policy": {
+    "operating_mode": "fast_provisional_80_20",
+    "new_llm_calls": false,
+    "automatic_fact_acceptance": false,
+    "accepted_fact_count": 0,
+    "qdrant_write_enabled": false,
+    "qdrant_entries_created": 0
+  }
+}
