@@ -1,0 +1,17 @@
+{
+  "version": "1.4.0",
+  "pilot_name": "PS-RCL1A-1D-W3 blind corpus validation",
+  "operating_mode": "BLIND PROVISIONAL 80/20",
+  "default_source_pdf": "/opt/nova-drl/input/RCL1A-1D-W3 All Line Cards.pdf",
+  "default_output_root": "/opt/nova-drl/output/power_supply_corpus_pilot_v1_4_0",
+  "vision_model": "qwen3-vl-drl:8b-q8-16k",
+  "reason_model": "qwen25-drl:14b-q6-16k",
+  "source_read_only": true,
+  "raw_transcription_immutable_after_acquisition": true,
+  "prior_benchmark_available_to_runtime": false,
+  "duplicate_failure_policy": "preserve_as_unique",
+  "quantity_policy": "sum explicit or unmistakably enumerated quantities only; never estimate vague quantities",
+  "count_authority": "python",
+  "automatic_fact_acceptance": false,
+  "qdrant_writes": false
+}
