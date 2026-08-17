@@ -1,0 +1,19 @@
+{
+  "version": "1.4.1",
+  "operating_mode": "BLIND PROVISIONAL 80/20",
+  "production_source": "individual Line Card images in repair folders",
+  "benchmark_pdf_role": "adapter_only",
+  "default_image_name_regex": "line\\s*card",
+  "vision_model": "qwen3-vl-drl:8b-q8-16k",
+  "reason_model": "qwen25-drl:14b-q6-16k",
+  "pdf_render_dpi": 300,
+  "focus_crop": "optional_when_pillow_available",
+  "duplicate_text_threshold": 0.55,
+  "duplicate_dhash_threshold": 10,
+  "normalization_candidate_threshold": 0.72,
+  "normalization_batch_descriptors": 60,
+  "repair_event_identity": "same_9_digit_drl_log_number_is_one_event",
+  "prior_hosted_benchmark_runtime_input": false,
+  "automatic_fact_acceptance": false,
+  "qdrant_writes": false
+}
