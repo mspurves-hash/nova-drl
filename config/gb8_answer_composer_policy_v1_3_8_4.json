@@ -1,0 +1,31 @@
+{
+  "version": "1.3.8.4",
+  "answer_composer_policy": {
+    "hybrid_final_top": 10,
+    "compose_top": 8,
+    "evidence_per_group": 3,
+    "max_findings": 6,
+    "max_checks": 5,
+    "num_ctx": 16384,
+    "num_predict": 1400,
+    "temperature": 0.0,
+    "json_retries": 1,
+    "timeout": 180,
+    "strict_expected_qdrant_points": 314
+  },
+  "policy": {
+    "hybrid_retrieval_is_evidence_selector": true,
+    "composer_may_search_corpus": false,
+    "composer_may_write_qdrant": false,
+    "composer_may_modify_recurrence": false,
+    "composer_may_approve_facts": false,
+    "support_group_ids_required": true,
+    "unknown_support_group_ids_dropped": true,
+    "deterministic_fallback_on_composer_failure": true,
+    "knowledge_status": "provisional",
+    "operating_philosophy": "FAST PROVISIONAL 80/20",
+    "human_readable_support_hides_internal_group_ids": true,
+    "traveler_evidence_hidden_by_default": true,
+    "traveler_evidence_available_on_demand": true
+  }
+}
