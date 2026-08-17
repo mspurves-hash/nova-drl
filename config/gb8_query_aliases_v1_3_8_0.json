@@ -1,0 +1,55 @@
+{
+  "version": "1.3.8.0",
+  "purpose": "Query expansion only; never rewrites evidence.",
+  "aliases": {
+    "Y axis": [
+      "Y-axis",
+      "Y motor",
+      "Y home"
+    ],
+    "Z axis": [
+      "Z-axis",
+      "Z1",
+      "Z2",
+      "Z3",
+      "Z motor",
+      "Z lead screw"
+    ],
+    "A1 A2": [
+      "A1+A2",
+      "A1/A2",
+      "A1 and A2"
+    ],
+    "vac": [
+      "vacuum",
+      "vac line",
+      "vac solenoid"
+    ],
+    "lead screw": [
+      "leadscrew",
+      "lead screws"
+    ],
+    "drift": [
+      "drifting"
+    ],
+    "servo off": [
+      "servo loop"
+    ],
+    "brush dust": [
+      "suck motors",
+      "sucked",
+      "blew out motors"
+    ],
+    "commutator": [
+      "comm life",
+      "end of comm life"
+    ],
+    "arm alignment": [
+      "linearity",
+      "sweep",
+      "swoop",
+      "B/R",
+      "B/Roll"
+    ]
+  }
+}
