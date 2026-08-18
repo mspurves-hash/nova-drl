@@ -1,0 +1,19 @@
+{
+  "version": "1.4.3",
+  "primary_source_mode": "drl_index",
+  "default_index_db": "/opt/nova-drl/index/drl_file_index.sqlite",
+  "default_share_root": "/mnt/drl",
+  "default_index_query": "RCL1A LINE",
+  "source_selector": {
+    "filename_regex": "line\\s*card",
+    "allowed_extensions": [".jpg", ".jpeg", ".png", ".tif", ".tiff", ".bmp", ".webp", ".pdf"],
+    "exclude_path_components": [".picasaoriginals"],
+    "exclude_filename_regex": "\\ball\\s+line\\s+cards?\\b",
+    "require_current_source_exists": true
+  },
+  "repair_event_identity": "same detected 9-digit DRL log => one repair event; otherwise preserve as separate event",
+  "source_mutation": false,
+  "automatic_fact_acceptance": false,
+  "qdrant_writes": false,
+  "prior_hosted_benchmark_runtime_input": false
+}
