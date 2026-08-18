@@ -1,0 +1,18 @@
+{
+  "version": "1.4.4",
+  "source_version": "1.4.3",
+  "default_source_root": "/opt/nova-drl/output/rcl1a_indexed_focused_recovery_v1_4_3",
+  "default_output_root": "/opt/nova-drl/output/rcl1a_parts_intelligence_v1_4_4",
+  "operating_mode": "80/20 volume-based provisional parts intelligence",
+  "vision_calls": 0,
+  "nas_discovery_or_rescan": false,
+  "source_line_card_reads": false,
+  "prior_hosted_benchmark_runtime_input": false,
+  "automatic_fact_acceptance": false,
+  "qdrant_writes": false,
+  "counting_owner": "python",
+  "family_policy": "useful technical/functional families may contain multiple exact PNs; exact PN usage is separately preserved and ranked",
+  "fuse_policy": "same-spec alternate/substitute fuse PNs may share one functional family while remaining distinct PN usage groups",
+  "pn_policy": "likely PN may normalize spacing/punctuation and recurrence-supported OCR variation; all observed raw PN strings remain preserved",
+  "quantity_policy": "sum explicit numeric quantities only; never estimate unstated quantities"
+}
