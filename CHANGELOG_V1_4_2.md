@@ -1,12 +1,15 @@
-# v1.4.2 Changelog
+# Changelog — v1.4.2
 
-- Added scanned/image-only PDF detection.
-- Added local 300-DPI page rendering with pdftoppm.
-- Added per-page Tesseract PSM 6 and PSM 11 OCR.
-- Added readability-based OCR pass selection.
-- Added page images, per-pass text, selected text, combined text, and manifests.
-- Added document-semantics profiles and interpretation guardrails.
-- Added `--extract-log` for controlled pilot extraction.
-- Added `--pdf-dpi`, `--max-pdf-pages`, and `--no-scanned-pdf-ocr`.
-- Preserved all v1.4.1 evidence accounting and system-metadata exclusions.
-- No Qdrant ingestion and no final repair conclusions.
+## Nova DRL File Index
+
+- Added one persistent SQLite file index for the complete `/mnt/drl` share.
+- Added Everything-style case-insensitive AND token searching across the full indexed path.
+- Added explicit validation that `RCL1A LINE` may match `RCL1A` in a parent folder and `LINE` in a filename.
+- Added initial full metadata crawl.
+- Added safe refresh: only new/changed rows are rewritten; vanished rows are removed only after an error-free complete scan.
+- Added DRL `YYMMDD###` log-number detection from path context.
+- Added extension and file-kind metadata and filters.
+- Added JSON search output for downstream Nova pipelines.
+- Deliberately excluded file-content reading and whole-file hashing from the index layer.
+- Added optional systemd refresh examples; not enabled automatically.
+- RCL1A v1.4.1 remains frozen; v1.4.2 establishes the discovery foundation before RCL1A development resumes.

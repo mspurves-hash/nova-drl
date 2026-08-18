@@ -1,0 +1,4 @@
+# Nova DRL runtime file index
+/index/*.sqlite
+/index/*.sqlite-wal
+/index/*.sqlite-shm

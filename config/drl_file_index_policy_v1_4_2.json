@@ -1,0 +1,17 @@
+{
+  "version": "1.4.2",
+  "name": "Nova DRL File Index",
+  "default_share_root": "/mnt/drl",
+  "default_index_db": "/opt/nova-drl/index/drl_file_index.sqlite",
+  "source_share_read_only": true,
+  "content_reads_during_indexing": false,
+  "whole_file_hashing_during_indexing": false,
+  "search_scope": "full_relative_path",
+  "search_token_logic": "AND",
+  "case_sensitive_search": false,
+  "drl_log_format": "YYMMDD###",
+  "deletion_rule": "delete unseen rows only after a completely error-free scan",
+  "refresh_strategy": "periodic full metadata walk with incremental database writes",
+  "accepted_facts": 0,
+  "qdrant": "OFF"
+}

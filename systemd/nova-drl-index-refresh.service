@@ -1,0 +1,11 @@
+[Unit]
+Description=Nova DRL File Index Refresh
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User=drladmin
+WorkingDirectory=/opt/nova-drl
+ExecStart=/usr/bin/python3 /opt/nova-drl/tools/nova_drl_file_index_v1_4_2.py refresh
+Nice=10
