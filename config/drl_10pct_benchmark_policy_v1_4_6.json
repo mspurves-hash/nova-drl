@@ -1,0 +1,28 @@
+{
+  "version": "1.4.6",
+  "policy_name": "Nova DRL Fixed 80/20 Benchmark Corpus",
+  "sample_percent": 10.0,
+  "sample_seed": "nova-drl-fixed-10pct-v1.4.6",
+  "tech_base": "000 folder for tech scans",
+  "standing_80_20_rule": true,
+  "traveler_primary_role": "high-volume repair-history and parts-used evidence",
+  "do_not_force": [
+    "perfect OCR",
+    "detailed diagnostics not present on source",
+    "test procedures not present on source",
+    "cross-model parts ranking"
+  ],
+  "future_knowledge_layers": [
+    "Operations Checklists",
+    "operational/service manuals",
+    "additional DRL knowledge sources"
+  ],
+  "roger_pair_rule": {
+    "scope": "ROGER only",
+    "line_card_2": "primary typed evidence when paired with (1)",
+    "line_card_1": "supporting evidence",
+    "line_card_3_plus": "primary additional evidence"
+  },
+  "accepted_facts": 0,
+  "qdrant": false
+}
