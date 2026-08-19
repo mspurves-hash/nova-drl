@@ -1,0 +1,35 @@
+{
+  "version": "1.4.5",
+  "operating_principle": "80/20 fixed default until Matt explicitly changes it",
+  "source_discovery": {
+    "mode": "persistent_drl_sqlite_index",
+    "default_index_db": "/opt/nova-drl/index/drl_file_index.sqlite",
+    "default_share_root": "/mnt/drl",
+    "recursive_nas_walk": false,
+    "source_write_access": false
+  },
+  "repair_event_identity": {
+    "primary": "valid 9-digit DRL log",
+    "fallback": "shared 8-12 digit legacy filename token without asserting it is a valid log",
+    "frequency_unit": "distinct repair event"
+  },
+  "roger_paired_line_cards": {
+    "scope": "ROGER only",
+    "when_1_and_2_exist": "(2) primary typed narrative; (1) supporting evidence",
+    "three_or_more": "(2) and (3+) primary/additional; (1) supporting",
+    "when_2_absent": "read available cards normally",
+    "other_engineers": "no paired-card shortcut"
+  },
+  "vision": {
+    "goal": "high-signal repair evidence, not perfect OCR",
+    "default_model": "qwen3-vl-drl:8b-q8-16k",
+    "supporting_roger_1_deep_read": false
+  },
+  "reasoning": {
+    "default_model": "qwen25-drl:14b-q6-16k",
+    "event_record": "structured symptom/diagnostic/repair/parts/calibration/test/outcome",
+    "corpus_goal": "recurring 80/20 technician patterns"
+  },
+  "accepted_facts": 0,
+  "qdrant_writes": false
+}
