@@ -1,0 +1,46 @@
+{
+  "version": "1.4.9",
+  "name": "Nova DRL Unified Knowledge Search + Print",
+  "operating_principle": "80/20 fixed default until Matt explicitly changes it",
+  "search_behavior": {
+    "engineer_interface": "type any full or partial identifying text at NOVA-DRL>",
+    "local_only": true,
+    "LLM_calls_for_lookup": 0,
+    "partial_case_insensitive": true,
+    "strict_identifier_linking": true,
+    "unrelated_identifier_filler": false
+  },
+  "presentation": {
+    "groups": [
+      "Tracking / Project",
+      "Procurement / Reorder",
+      "Equipment / Product",
+      "Indexed Parts",
+      "Repair History",
+      "Part Occurrences",
+      "Source Files"
+    ],
+    "customer_po_separate_from_procurement": true,
+    "hide_picasa_ini": true,
+    "hide_picasaoriginals": true
+  },
+  "tracking_rules": {
+    "RMA": "literal evidence required",
+    "customer_PO": "display separately only when source explicitly identifies it as customer PO",
+    "DGK": "Digi-Key order reference, not manufacturer PN",
+    "MSR": "Mouser order reference, not manufacturer PN",
+    "NWK_DSK": "procurement/order references; supplier unknown unless source states it"
+  },
+  "print": {
+    "command": ":pdf",
+    "format": "Letter PDF",
+    "generator": "dependency-free local Python PDF writer",
+    "default_reports_dir": "/opt/nova-drl/reports",
+    "default_http_port": 8765,
+    "report_server_content": "generated PDF files only"
+  },
+  "coverage": {
+    "file_paths": "full persistent DRL file index",
+    "repair_knowledge": "current frozen 10% benchmark corpus until further ingestion"
+  }
+}
