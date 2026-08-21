@@ -1,0 +1,19 @@
+{
+  "version": "1.4.7",
+  "source_version": "1.4.6",
+  "operating_mode": "additive enrichment of frozen 10% benchmark corpus",
+  "80_20_rule": "FIXED DEFAULT until Matt explicitly changes it",
+  "rma": "first-class repair tracking field when visibly present",
+  "procurement_refs": "first-class searchable distributor/order evidence; never automatically a manufacturer PN",
+  "known_order_prefixes": {
+    "DGK": "Digi-Key",
+    "MSR": "Mouser",
+    "NWK": null,
+    "DSK": null
+  },
+  "manufacturer_pn_rule": "never infer manufacturer PN from a distributor/order reference",
+  "source_corpus_modified": false,
+  "nas_discovery_rescan": false,
+  "qdrant_writes": false,
+  "accepted_facts": 0
+}
