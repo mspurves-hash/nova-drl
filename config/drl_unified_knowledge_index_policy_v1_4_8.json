@@ -1,0 +1,47 @@
+{
+  "version": "1.4.8",
+  "name": "Nova DRL Unified Knowledge Index",
+  "operating_principle": "80/20 fixed default until Matt explicitly changes it",
+  "purpose": "Instant local retrieval across DRL file metadata and AI-ingested repair knowledge without invoking an LLM for ordinary lookup.",
+  "source_layers": {
+    "file_index": "v1.4.2 persistent full-share metadata index",
+    "repair_history": "v1.4.6 frozen 10% benchmark corpus",
+    "tracking_procurement": "v1.4.7 additive RMA/procurement enrichment"
+  },
+  "search_fields": [
+    "filename",
+    "full indexed path",
+    "equipment/model family",
+    "serial text carried in path/source",
+    "DRL log",
+    "RMA",
+    "manufacturer part number",
+    "Digi-Key/Mouser/NWK/DSK procurement reference",
+    "repair history text",
+    "reported problem text",
+    "indexed product-part knowledge"
+  ],
+  "tracking_rules": {
+    "rma": "literal evidence required",
+    "procurement_order_ref": "literal evidence required; no cross-event inference",
+    "DGK": "Digi-Key order reference",
+    "MSR": "Mouser order reference",
+    "NWK_DSK": "procurement/order references; supplier unknown unless source states it",
+    "procurement_not_mfr_pn": true
+  },
+  "knowledge_rules": {
+    "product_parts_are_indexed": true,
+    "part_usage_is_grouped_by_equipment_family": true,
+    "cross_model_part_ranking": false,
+    "perfect_ocr_required": false,
+    "source_evidence_preserved": true,
+    "current_knowledge_scope": "frozen 10% benchmark until more DRL ingestion is available"
+  },
+  "runtime": {
+    "LLM_calls_for_lookup": 0,
+    "NAS_rescan_for_lookup": 0,
+    "search_engine": "SQLite FTS5 trigram",
+    "partial_search": true,
+    "case_insensitive": true
+  }
+}
