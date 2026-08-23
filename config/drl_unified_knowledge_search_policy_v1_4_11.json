@@ -1,0 +1,50 @@
+{
+  "version": "1.4.11",
+  "name": "Nova DRL Engineer Presentation + Windows Shortcut",
+  "operating_principle": "80/20 fixed default until Matt explicitly changes it",
+  "search_behavior": {
+    "engineer_interface": "type any full or partial identifying text at NOVA-DRL>",
+    "local_only": true,
+    "LLM_calls_for_lookup": 0,
+    "partial_case_insensitive": true,
+    "strict_identifier_linking": true,
+    "unrelated_identifier_filler": false
+  },
+  "presentation": {
+    "customer_po_separate_from_procurement": true,
+    "hide_picasa_ini": true,
+    "hide_picasaoriginals": true,
+    "blue_action_hints": true,
+    "clickable_pdf_url": "OSC-8 when supported",
+    "plain_pdf_url": "always printed for copy/paste into Chrome/Edge",
+    "preferred_browser_address": "LAN IPv4 first; hostname alternate"
+  },
+  "tracking_rules": {
+    "RMA": "literal evidence required",
+    "customer_PO": "display separately only when explicitly identified as customer PO",
+    "DGK": "Digi-Key order reference, not manufacturer PN",
+    "MSR": "Mouser order reference, not manufacturer PN",
+    "NWK_DSK": "procurement/order references; supplier unknown unless source states it"
+  },
+  "print": {
+    "pdf_command": ":pdf",
+    "direct_print_command": ":print",
+    "format": "Letter PDF",
+    "default_reports_dir": "/opt/nova-drl/reports",
+    "default_http_port": 8765,
+    "report_server_bind": "0.0.0.0",
+    "printer_backend": "lp/lpr when available"
+  },
+  "windows_shortcut": {
+    "name": "NOVA DRL",
+    "default_server": "192.168.86.32",
+    "default_user": "drladmin",
+    "remote_command": "/usr/local/bin/nova-drl",
+    "password_storage": false,
+    "installer": "windows/Install-NOVA-DRL-Shortcut.ps1"
+  },
+  "coverage": {
+    "file_paths": "full persistent DRL file index",
+    "repair_knowledge": "current frozen 10% benchmark corpus until further ingestion"
+  }
+}
