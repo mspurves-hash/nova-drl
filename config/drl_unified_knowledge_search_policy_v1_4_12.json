@@ -1,0 +1,50 @@
+{
+  "version": "1.4.12",
+  "name": "Nova DRL Windows Engineer Client + Auto-Open Reports",
+  "operating_principle": "80/20 fixed default until Matt explicitly changes it",
+  "search_behavior": {
+    "engineer_interface": "type any full or partial identifying text at NOVA-DRL>",
+    "local_index_on_server": true,
+    "LLM_calls_for_lookup": 0,
+    "partial_case_insensitive": true,
+    "strict_identifier_linking": true,
+    "unrelated_identifier_filler": false
+  },
+  "presentation": {
+    "customer_po_separate_from_procurement": true,
+    "hide_picasa_ini": true,
+    "hide_picasaoriginals": true,
+    "windows_action_hints": "cyan :pdf / :print / :open",
+    "server_browser_url_fallback": true
+  },
+  "tracking_rules": {
+    "RMA": "literal evidence required",
+    "customer_PO": "display separately only when explicitly identified as customer PO",
+    "DGK": "Digi-Key order reference, not manufacturer PN",
+    "MSR": "Mouser order reference, not manufacturer PN",
+    "NWK_DSK": "procurement/order references; supplier unknown unless source states it"
+  },
+  "windows_engineer_client": {
+    "name": "NOVA DRL",
+    "default_server": "192.168.86.32",
+    "default_user": "drladmin",
+    "default_report_directory": "Z:\\NOVA DRL Reports",
+    "fallback_report_directory": "Documents\\NOVA DRL Reports",
+    "ssh_key": "%USERPROFILE%\\.ssh\\nova_drl_ed25519",
+    "password_storage": false,
+    "key_setup": "one-time password prompt to authorize dedicated SSH public key",
+    "search_transport": "SSH with Base64-safe query; local index lookup on Nova server",
+    "report_transport": "server creates PDF -> SCP to Windows-accessible DRL share -> Windows opens local/shared PDF",
+    "pdf_behavior": ":pdf saves and auto-opens in default Windows PDF application",
+    "print_behavior": ":print attempts Windows default PDF Print verb; falls back to opening PDF for Ctrl+P"
+  },
+  "server_report_behavior": {
+    "default_reports_dir": "/opt/nova-drl/reports",
+    "pdf_file_mode": "--pdf-file-b64 creates report without HTTP/CUPS dependency",
+    "legacy_http_fallback": "retained from v1.4.11"
+  },
+  "coverage": {
+    "file_paths": "full persistent DRL file index",
+    "repair_knowledge": "current frozen 10% benchmark corpus until further ingestion"
+  }
+}
