@@ -1,0 +1,14 @@
+{
+  "version": "1.5.2",
+  "name": "Nova DRL Full Corpus Ingester - Resilient Vision Hotfix",
+  "standing_rule": "80/20 fixed default until Matt explicitly changes it",
+  "frozen_corpus_manifest": "/opt/nova-drl/corpus/drl_full_corpus_v1_5_1/full_corpus_manifest_v1_5_1.json",
+  "vision_failure_policy": [
+    "try original source image",
+    "on rejection re-encode to standard RGB baseline JPEG and retry once",
+    "if retry fails preserve exception and continue full corpus"
+  ],
+  "source_mutation": false,
+  "qdrant_writes": false,
+  "accepted_facts": 0
+}
