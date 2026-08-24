@@ -8,7 +8,7 @@ param(
 $ErrorActionPreference = "Stop"
 $ssh = Join-Path $env:WINDIR "System32\OpenSSH\ssh.exe"
 $scp = Join-Path $env:WINDIR "System32\OpenSSH\scp.exe"
-$remoteTool = "/opt/nova-drl/tools/nova_drl_unified_knowledge_index_v1_4_12.py"
+$remoteTool = "/opt/nova-drl/tools/nova_drl_unified_knowledge_index_v1_4_13.py"
 $script:LastQuery = $null
 $script:LastReport = $null
 
@@ -118,11 +118,11 @@ function New-NovaReport([string]$Query, [switch]$PrintMode) {
 if (-not (Test-Path $ssh)) { throw "Windows OpenSSH client not found: $ssh" }
 if (-not (Test-Path $scp)) { throw "Windows SCP client not found: $scp" }
 if (-not (Test-Path $KeyPath)) {
-    throw "NOVA DRL SSH key not found: $KeyPath`nRe-run the NOVA DRL v1.4.12 Windows installer."
+    throw "NOVA DRL SSH key not found: $KeyPath`nRe-run the NOVA DRL v1.4.13 Windows installer."
 }
 
 Clear-Host
-Write-Host "Nova DRL Windows Engineer Client v1.4.12" -ForegroundColor Cyan
+Write-Host "Nova DRL Windows Engineer Client v1.4.13" -ForegroundColor Cyan
 Write-Host "Fast indexed search; PDF reports are copied to the DRL Windows share and opened locally."
 Write-Host "No AI call is used for simple lookups. Commands: :help  :status  :pdf  :print  :open  :quit"
 Write-Host ""

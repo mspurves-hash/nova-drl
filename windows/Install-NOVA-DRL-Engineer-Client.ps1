@@ -26,13 +26,29 @@ $key = Join-Path $sshDir "nova_drl_ed25519"
 
 if (-not (Test-Path $key)) {
     Write-Host "Creating a dedicated NOVA DRL SSH key..." -ForegroundColor Cyan
-    & $keygen -t ed25519 -N "" -C "nova-drl-$env:COMPUTERNAME" -f $key
+    Write-Host "When prompted for the key passphrase, press Enter twice to leave it blank." -ForegroundColor Yellow
+    # Windows PowerShell 5.1 drops an empty -N argument. Let ssh-keygen ask
+    # interactively instead; this works consistently on legacy DRL stations.
+    & $keygen -t ed25519 -C "nova-drl-$env:COMPUTERNAME" -f $key
     if ($LASTEXITCODE -ne 0) { throw "ssh-keygen failed." }
 }
 
 function Test-NovaKey {
-    $out = & $ssh -i $key -o BatchMode=yes -o ConnectTimeout=8 "${User}@${Server}" "echo NOVA_DRL_KEY_OK" 2>$null
-    return ($LASTEXITCODE -eq 0 -and ($out -match "NOVA_DRL_KEY_OK"))
+    # Windows PowerShell 5.1 can promote native SSH stderr to a terminating
+    # NativeCommandError while testing a not-yet-authorized key. Suppress that
+    # expected first-test noise and decide only from SSH's exit code/output.
+    $oldEap = $ErrorActionPreference
+    try {
+        $ErrorActionPreference = "SilentlyContinue"
+        $out = & $ssh -i $key -o BatchMode=yes -o ConnectTimeout=8 "${User}@${Server}" "echo NOVA_DRL_KEY_OK" 2>$null
+        $rc = $LASTEXITCODE
+    } catch {
+        $out = @()
+        $rc = 1
+    } finally {
+        $ErrorActionPreference = $oldEap
+    }
+    return ($rc -eq 0 -and ($out -match "NOVA_DRL_KEY_OK"))
 }
 
 if (-not (Test-NovaKey)) {
