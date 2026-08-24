@@ -1,0 +1,26 @@
+{
+  "version": "1.5.0",
+  "name": "Nova DRL Full Repair-History Corpus Ingester",
+  "80_20_rule": "FIXED DEFAULT until Matt explicitly changes it",
+  "source_role": {
+    "travelers": "parts/replacement + repair history",
+    "operations_checklists": "later procedural/test knowledge",
+    "manuals": "later OEM reference"
+  },
+  "tracking": {
+    "rma": "literal evidence only",
+    "customer_po": "literal evidence only",
+    "DGK": "Digi-Key procurement ref",
+    "MSR": "Mouser procurement ref",
+    "NWK_DSK": "procurement ref; supplier unknown unless visible",
+    "procurement_not_manufacturer_pn": true
+  },
+  "source_exclusions": [
+    ".picasa.ini",
+    ".picasaoriginals",
+    "combined All Line Cards benchmark PDFs"
+  ],
+  "roger_pair_rule": "ONLY Roger: (2) typed primary, (1) supporting when both exist",
+  "qdrant": false,
+  "accepted_facts": 0
+}
