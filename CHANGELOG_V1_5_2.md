@@ -29,3 +29,9 @@ v1.5.2 deliberately reuses:
 `/opt/nova-drl/corpus/drl_full_corpus_v1_5_1/full_corpus_manifest_v1_5_1.json`
 
 This keeps the same frozen 9,315-folder production corpus rather than silently creating a new population.
+
+## Hotfix: frozen v1.5.1 manifest compatibility
+- v1.5.2 now explicitly accepts the already-frozen v1.5.1 full-corpus manifest.
+- The manifest is treated as corpus-membership identity, not as a processing-version cache.
+- Unknown manifest versions, non-100% manifests, seed mismatches, and tech-base mismatches still fail closed.
+- `--force-corpus` is NOT required for the v1.5.1 -> v1.5.2 vision-resilience hotfix and should not be used unless corpus membership is intentionally being regenerated.

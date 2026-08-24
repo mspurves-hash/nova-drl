@@ -58,6 +58,7 @@ DEFAULT_TECH_BASE = "000 folder for tech scans"
 DEFAULT_OUTPUT_ROOT = Path("/opt/nova-drl/output/drl_full_corpus_v1_5_2")
 DEFAULT_CORPUS_MANIFEST = Path("/opt/nova-drl/corpus/drl_full_corpus_v1_5_1/full_corpus_manifest_v1_5_1.json")
 DEFAULT_CORPUS_SEED = "nova-drl-full-corpus-v1.5.1"
+FROZEN_CORPUS_COMPAT_VERSIONS = {"1.5.1", "1.5.2"}
 DEFAULT_VISION_MODEL = "qwen3-vl-drl:8b-q8-16k"
 DEFAULT_REASON_MODEL = "qwen25-drl:14b-q6-16k"
 DEFAULT_TYPED_PAIR_ENGINEER = "ROGER"
@@ -821,6 +822,39 @@ def write_outputs(args: argparse.Namespace, corpus: Dict[str, Any], selection: D
     (out_root / "drl_full_corpus_summary_v1_5_2.txt").write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
+def get_or_create_full_corpus_manifest(args: argparse.Namespace, by_folder: Dict[str, List[Dict[str, Any]]], meta: Dict[str, str], *, persist: bool) -> Dict[str, Any]:
+    """Reuse the frozen v1.5.1 full-corpus membership during v1.5.2 hotfix runs.
+
+    The corpus manifest is a membership baseline, not a processing-version cache.  v1.5.2
+    intentionally changes vision failure handling while preserving the exact v1.5.1 folder
+    universe.  Therefore a v1.5.1 manifest at the configured path is expected and safe.
+    Unknown manifest versions still fail closed; --force-corpus remains the only way to
+    intentionally regenerate membership.
+    """
+    manifest_path = Path(args.sample_manifest)
+    if manifest_path.exists() and not args.force_sample:
+        manifest = base.load_json(manifest_path)
+        manifest_version = str(manifest.get("version") or "")
+        if manifest_version not in FROZEN_CORPUS_COMPAT_VERSIONS:
+            raise RuntimeError(
+                f"full-corpus manifest version {manifest_version!r} is not compatible with v{VERSION}; "
+                "expected frozen v1.5.1 membership (or a v1.5.2 manifest). Do not use --force-corpus "
+                "unless you intentionally want to change corpus membership."
+            )
+        if float(manifest.get("sample_percent", -1)) != 100.0:
+            raise RuntimeError(f"full-corpus manifest is not 100%: {manifest.get('sample_percent')}")
+        if str(manifest.get("sample_seed") or "") != str(args.sample_seed):
+            raise RuntimeError(
+                f"full-corpus manifest seed mismatch: {manifest.get('sample_seed')!r} != {args.sample_seed!r}"
+            )
+        if str(manifest.get("tech_base") or "") != str(args.tech_base):
+            raise RuntimeError(
+                f"full-corpus manifest tech-base mismatch: {manifest.get('tech_base')!r} != {args.tech_base!r}"
+            )
+        return manifest
+    return base.get_or_create_sample(args, by_folder, meta, persist=persist)
+
+
 def prepare(args: argparse.Namespace, *, persist: bool):
     by_folder, meta = base.load_tech_scan_rows(Path(args.index_db), args.tech_base)
     bound = meta.get("share_root") or meta.get("bound_share_root")
@@ -831,7 +865,7 @@ def prepare(args: argparse.Namespace, *, persist: bool):
         except FileNotFoundError:
             raise RuntimeError(f"share root not resolvable: {args.share_root}")
     # Reuse the proven deterministic/frozen sample mechanism at 100%.
-    corpus = base.get_or_create_sample(args, by_folder, meta, persist=persist)
+    corpus = get_or_create_full_corpus_manifest(args, by_folder, meta, persist=persist)
     selection = base.select_sample_sources(args, by_folder, corpus)
     events = base.build_event_plan(selection["selected_documents"], args.typed_pair_engineer)
     return by_folder, meta, corpus, selection, events

@@ -23,6 +23,26 @@ assert str(m.DEFAULT_CORPUS_MANIFEST).endswith("drl_full_corpus_v1_5_1/full_corp
 sample = m.base.deterministic_sample(["C", "A", "B"], 100.0, "seed")
 assert {x["folder"] for x in sample} == {"A", "B", "C"}
 
+
+# v1.5.2 MUST accept the already-frozen v1.5.1 full-corpus membership without --force.
+with tempfile.TemporaryDirectory() as td_manifest:
+    td_manifest = Path(td_manifest)
+    manifest_path = td_manifest / "full_corpus_manifest_v1_5_1.json"
+    frozen = {
+        "version":"1.5.1", "sample_percent":100.0,
+        "sample_seed":m.DEFAULT_CORPUS_SEED, "tech_base":"000 folder for tech scans",
+        "sample_folder_count":2, "all_top_level_folder_count":2,
+        "sampled_folders":[{"sample_rank":1,"folder":"A","sample_hash":"a"},{"sample_rank":2,"folder":"B","sample_hash":"b"}],
+    }
+    manifest_path.write_text(json.dumps(frozen), encoding="utf-8")
+    a = argparse.Namespace(
+        sample_manifest=str(manifest_path), force_sample=False, sample_percent=100.0,
+        sample_seed=m.DEFAULT_CORPUS_SEED, tech_base="000 folder for tech scans"
+    )
+    got = m.get_or_create_full_corpus_manifest(a, {"A":[],"B":[]}, {}, persist=False)
+    assert got["version"] == "1.5.1"
+    assert got["sample_folder_count"] == 2
+
 # Tracking rules remain strict.
 evidence = ["RMA#: 53434\nCust PO: 8200632948\nParts order DGK52102 $37.06\nMSR 56889\nReplaced 2 x HCPL-2400 optocouplers."]
 parsed = {
