@@ -1,13 +1,9 @@
-# v1.5.1 Changelog
+# Nova DRL v1.5.1 — Full Corpus Ingester
 
-- Added item-level Repair Actions fusion.
-- Reads structured Traveler Reader v1.3.4.x repair-row JSON.
-- Refuses to create repair-action facts from raw whole-region OCR alone.
-- Preserves repair descriptions exactly except whitespace/terminal punctuation.
-- Carries provisional technician initials and dates without accepting them as facts.
-- Can corroborate a traveler action against event-specific Internal Checklist Notes.
-- Imports prior v1.5 human-review decisions so approved complaint fields persist.
-- Added per-action approve/reject/hold decisions.
-- Added approved repair-action export with source traceability.
-- Parts, root cause, testing, and final result remain separate/unestablished.
-- No Qdrant writes.
+- Scales the proven v1.4.6 10% ingestion architecture to the full current tech-scan folder universe.
+- Freezes full-corpus membership on first production run.
+- Reuses exact-match events from the frozen v1.4.7 enriched 10% benchmark when possible.
+- Captures RMA, Customer PO, and procurement/order references in the same new-source vision pass.
+- Strict tracking policy: DGK/MSR/NWK/DSK refs are not manufacturer PNs; literal evidence required.
+- Preserves equipment-family identity; no cross-model part ranking in ingestion.
+- 80/20 remains fixed default. No perfect OCR target. No Qdrant writes. No source writes.

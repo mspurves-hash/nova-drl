@@ -1,0 +1,20 @@
+{
+  "version": "1.5.1",
+  "mode": "production_full_corpus_80_20",
+  "folder_percent": 100.0,
+  "freeze_membership": true,
+  "perfect_ocr_required": false,
+  "qdrant_writes": false,
+  "accepted_facts": 0,
+  "tracking": {
+    "rma_literal": true,
+    "customer_po_literal": true,
+    "procurement_literal": true,
+    "DGK_supplier": "Digi-Key",
+    "MSR_supplier": "Mouser",
+    "NWK_supplier": null,
+    "DSK_supplier": null,
+    "procurement_refs_are_manufacturer_pn": false
+  },
+  "reuse_frozen_10pct_when_exact_source_match": true
+}
