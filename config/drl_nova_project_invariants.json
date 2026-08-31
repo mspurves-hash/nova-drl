@@ -1,0 +1,11 @@
+{
+  "project": "DRL Nova",
+  "80_20_rule": "HARD_INVARIANT",
+  "corpus_volume_owns_product_knowledge": true,
+  "expert_input_role": "sanity_check_and_exception_review_only",
+  "expert_override_enabled": false,
+  "explicit_user_promotion_required_for_expert_rule": true,
+  "normal_product_part_min_distinct_repair_events": 2,
+  "one_off_part_strings_preserved_but_suppressed_from_normal_product_view": true,
+  "note": "This policy must remain unchanged in future DRL Nova builds unless Matt explicitly changes it."
+}

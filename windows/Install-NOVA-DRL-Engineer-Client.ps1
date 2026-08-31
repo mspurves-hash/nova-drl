@@ -81,7 +81,7 @@ $shortcut.TargetPath = "$env:SystemRoot\System32\WindowsPowerShell\v1.0\powershe
 $escapedClient = $client.Replace('"','\"')
 $shortcut.Arguments = "-NoProfile -ExecutionPolicy Bypass -File `"$client`" -Server `"$Server`" -User `"$User`" -KeyPath `"$key`" -ReportDirectory `"$SharedReportDirectory`""
 $shortcut.WorkingDirectory = $installDir
-$shortcut.Description = "NOVA DRL Windows Engineer Client - indexed search and auto-open reports"
+$shortcut.Description = "NOVA DRL Windows Engineer Client v1.5.7 - indexed search and auto-open reports"
 $shortcut.IconLocation = "$env:SystemRoot\System32\WindowsPowerShell\v1.0\powershell.exe,0"
 $shortcut.Save()
 
