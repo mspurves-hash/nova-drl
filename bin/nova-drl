@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
-SCRIPT="/opt/nova-drl/tools/nova_drl_unified_knowledge_index_v1_5_3.py"
+SCRIPT="/opt/nova-drl/tools/nova_drl_unified_knowledge_index_v1_5_4.py"
 if [[ ! -f "$SCRIPT" ]]; then
-  echo "Nova DRL v1.5.3 script not found: $SCRIPT" >&2
+  echo "Nova DRL v1.5.4 script not found: $SCRIPT" >&2
   exit 2
 fi
 if [[ $# -eq 0 ]]; then

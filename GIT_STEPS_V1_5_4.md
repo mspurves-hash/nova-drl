@@ -1,17 +1,12 @@
-# Windows -> GitHub -> Ubuntu
+# Git steps v1.5.4
 
-1. Extract this ZIP on Windows.
-2. Merge into the existing Nova DRL Git working directory.
-3. Commit in GitHub Desktop:
+Use the normal Nova DRL workflow: copy these files into the Windows Git working tree, commit/push with GitHub Desktop, then run `git pull` on Ubuntu.
 
-`Add Diagnostic Hypothesis Root Cause Fusion v1.5.4`
-
-4. Push.
-
-Ubuntu:
+After pull:
 
 ```bash
-cd /opt/nova-drl
-git pull
-python3 tests/test_diagnostic_root_cause_fusion_v1_5_4.py
+python3 tests/test_unified_drl_knowledge_index_v1_5_4.py
+nova-drl
 ```
+
+No knowledge-index rebuild is required.
