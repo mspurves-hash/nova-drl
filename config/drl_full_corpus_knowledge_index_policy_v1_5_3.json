@@ -1,0 +1,24 @@
+{
+  "version": "1.5.3",
+  "name": "Nova DRL Full-Corpus Unified Knowledge Index",
+  "80_20_rule": "fixed_default_until_matt_changes_it",
+  "file_coverage": "full_persistent_drl_file_index",
+  "repair_knowledge_source": "/opt/nova-drl/output/drl_full_corpus_v1_5_2",
+  "knowledge_coverage": "full_v1_5_2_repair_corpus",
+  "tracking_policy": {
+    "rma": "literal_evidence_required",
+    "customer_po": "literal_evidence_required_and_separate_from_procurement",
+    "DGK": "Digi-Key procurement reference, never manufacturer PN by prefix alone",
+    "MSR": "Mouser procurement reference, never manufacturer PN by prefix alone",
+    "NWK_DSK": "procurement reference unless source explicitly establishes otherwise"
+  },
+  "search": {
+    "engine": "SQLite FTS5 trigram",
+    "partial_search": true,
+    "ai_calls": 0,
+    "nas_rescan": 0
+  },
+  "product_parts": "grouped by equipment_family; original variants/evidence preserved",
+  "writes_to_drl_share": false,
+  "qdrant": "off"
+}
