@@ -26,8 +26,19 @@ $key = Join-Path $sshDir "nova_drl_ed25519"
 
 if (-not (Test-Path $key)) {
     Write-Host "Creating a dedicated NOVA DRL SSH key..." -ForegroundColor Cyan
-    & $keygen -t ed25519 -N "" -C "nova-drl-$env:COMPUTERNAME" -f $key
-    if ($LASTEXITCODE -ne 0) { throw "ssh-keygen failed." }
+
+    # Windows PowerShell 5.1 drops empty native-command arguments such as -N "".
+    # Build the ssh-keygen command line explicitly through ProcessStartInfo so the
+    # empty passphrase is preserved on older DRL Windows workstations.
+    $psi = New-Object System.Diagnostics.ProcessStartInfo
+    $psi.FileName = $keygen
+    $safeComment = ("nova-drl-{0}" -f $env:COMPUTERNAME).Replace('"','')
+    $safeKey = $key.Replace('"','')
+    $psi.Arguments = ('-t ed25519 -N "" -C "{0}" -f "{1}"' -f $safeComment, $safeKey)
+    $psi.UseShellExecute = $false
+    $proc = [System.Diagnostics.Process]::Start($psi)
+    $proc.WaitForExit()
+    if ($proc.ExitCode -ne 0) { throw "ssh-keygen failed." }
 }
 
 function Test-NovaKey {
