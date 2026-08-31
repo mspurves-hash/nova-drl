@@ -1,12 +1,15 @@
 #!/usr/bin/env bash
 set -euo pipefail
-SCRIPT="/opt/nova-drl/tools/nova_drl_unified_knowledge_index_v1_5_7.py"
+SCRIPT="/opt/nova-drl/tools/nova_drl_unified_knowledge_index_v1_5_8.py"
 if [[ ! -f "$SCRIPT" ]]; then
-  echo "Nova DRL v1.5.7 script not found: $SCRIPT" >&2
+  echo "Nova DRL v1.5.8 script not found: $SCRIPT" >&2
   exit 2
 fi
 if [[ $# -eq 0 ]]; then
   exec python3 "$SCRIPT" --prompt
+elif [[ "$1" == --* ]]; then
+  # Stable server endpoint for Windows clients and automation.
+  exec python3 "$SCRIPT" "$@"
 else
   exec python3 "$SCRIPT" --search "$*"
 fi
