@@ -7,5 +7,9 @@
   "explicit_user_promotion_required_for_expert_rule": true,
   "normal_product_part_min_distinct_repair_events": 2,
   "one_off_part_strings_preserved_but_suppressed_from_normal_product_view": true,
+  "reference_pn_source": "corpus_recurring_observed_variants_only",
+  "expert_reference_pn_map_enabled": false,
+  "reference_pn_prefer_complete_alphanumeric_when_recurring": true,
+  "reference_pn_allow_dominant_stable_numeric_core": true,
   "note": "This policy must remain unchanged in future DRL Nova builds unless Matt explicitly changes it."
 }
