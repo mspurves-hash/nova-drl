@@ -27,6 +27,8 @@ assert mod.DRL_80_20_HARD_INVARIANT is True
 assert mod.ALLOW_EXPERT_KNOWLEDGE_OVERRIDES is False
 assert mod.EXPERT_INPUT_ROLE == 'sanity_check_only_unless_explicitly_promoted'
 assert mod.PRODUCT_PART_MIN_REPAIRS >= 2
+assert mod.GENERIC_ROOT_CAUSE_FIXES_MUST_BE_GLOBAL is True
+assert mod.ALLOW_PRODUCT_SPECIFIC_RESOLVER_PATCHES is False
 for forbidden_attr in ('KIT_CONFIG','load_standard_kit_rules','qualifying_repair_event_ids','REFERENCE_PN_EXPERT_MAP'):
     assert not hasattr(mod, forbidden_attr), f'forbidden expert-override path exists: {forbidden_attr}'
 
@@ -37,6 +39,10 @@ assert policy['expert_override_enabled'] is False
 assert policy['expert_reference_pn_map_enabled'] is False
 assert policy['reference_pn_source'] == 'corpus_recurring_observed_variants_only'
 assert policy['explicit_user_promotion_required_for_expert_rule'] is True
+assert policy['generic_root_cause_fixes_must_be_global'] is True
+assert policy['product_suffix_resolution_scope'] == 'global_corpus_volume_rule'
+assert policy['component_variant_resolution_scope'] == 'global_corpus_volume_rule'
+assert policy['product_specific_resolver_patches_forbidden_unless_explicit_exception'] is True
 
 source = UI.read_text(encoding='utf-8').casefold()
 for forbidden in (

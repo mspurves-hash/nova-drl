@@ -11,5 +11,9 @@
   "expert_reference_pn_map_enabled": false,
   "reference_pn_prefer_complete_alphanumeric_when_recurring": true,
   "reference_pn_allow_dominant_stable_numeric_core": true,
-  "note": "This policy must remain unchanged in future DRL Nova builds unless Matt explicitly changes it."
+  "note": "This policy must remain unchanged in future DRL Nova builds unless Matt explicitly changes it.",
+  "generic_root_cause_fixes_must_be_global": true,
+  "product_suffix_resolution_scope": "global_corpus_volume_rule",
+  "component_variant_resolution_scope": "global_corpus_volume_rule",
+  "product_specific_resolver_patches_forbidden_unless_explicit_exception": true
 }
