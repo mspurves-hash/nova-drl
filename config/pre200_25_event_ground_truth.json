@@ -1,0 +1,383 @@
+{
+  "benchmark": "PRE-200 25-event multimodal extraction bake-off",
+  "source_pdf": "pre-200.pdf",
+  "selection": "25 unique PRE-200-family repair events from PDF pages 10-38; duplicate pages 21 and 35 and PRE-201-CE pages 24 and 26 excluded",
+  "scoring_note": "Conservative 80/20 ground truth: only technician-useful facts clearly supported by the page image are scored. Diagnostic swaps and ambiguous one-off handwriting are not scored as replacement parts unless the wording clearly indicates installation/replacement.",
+  "events": [
+    {
+      "page": 10, "log": "140723001",
+      "reported_failure": [
+        {"label":"aligner would not respond / possible communication issue","aliases":["aligner wouldnt respond","aligner would not respond","communication issue","comm issue"]}
+      ],
+      "parts_replaced": [
+        {"label":"belt S7912Y-32AF112","aliases":["s7912y32af112 belt","s7912y 32af112 belt","s7912y32af112"]}
+      ],
+      "part_references": [
+        {"label":"S7912Y-32AF112","aliases":["s7912y32af112"]}
+      ],
+      "repair_actions": [
+        {"label":"swap LED boards","aliases":["swapped led boards","swap led boards","led boards"]},
+        {"label":"adjust alignment brightness","aliases":["adjusted brightness","brightness"]},
+        {"label":"test vacuum for leaks","aliases":["vac has no leaks","vacuum no leaks","test vacuum"]}
+      ]
+    },
+    {
+      "page": 11, "log": "141029001",
+      "reported_failure": [
+        {"label":"robot position errors / chuck motor intermittently stops","aliases":["robot position errors","chuck motor intermittently stops","chuck motor stops"]},
+        {"label":"Z axis will not home","aliases":["z axis wont home","z axis will not home"]}
+      ],
+      "parts_replaced": [
+        {"label":"Z-axis pin motor","aliases":["z axis pin motor","z pin motor"]},
+        {"label":"Z encoder","aliases":["z encoder","pin motor enc","encoder"]},
+        {"label":"CCD 3","aliases":["ccd 3","ccd3"]}
+      ],
+      "part_references": [],
+      "repair_actions": [
+        {"label":"align pin motor","aliases":["aligned pin motor","align pin motor"]},
+        {"label":"adjust vacuum on pins","aliases":["adjusted vac on pins","vac on pins"]}
+      ]
+    },
+    {
+      "page": 12, "log": "150121003",
+      "reported_failure": [
+        {"label":"pins rubbing against case","aliases":["pins were rubbing against case","pins rubbing against case"]},
+        {"label":"R lead screw not spinning true","aliases":["r lead screw is not spinning true","lead screw not spinning true"]},
+        {"label":"Z motor keeps erroring / needs new","aliases":["z motor keeps erroring","z motor needs new","bad z motor"]}
+      ],
+      "parts_replaced": [
+        {"label":"Z motor","aliases":["replaced z motor","z motor"]},
+        {"label":"R motor","aliases":["replaced r motor","r motor"]},
+        {"label":"ladder belt blue","aliases":["changed ladder belt blue","ladder belt blue","blue ladder belt"]}
+      ],
+      "part_references": [],
+      "repair_actions": [
+        {"label":"flush R motor / rescue commutator","aliases":["flushed r motor","rescued commutator","commutator"]},
+        {"label":"realign/regrease R lead screw","aliases":["realigned lead screw","regreased lead screw","r lead screw"]},
+        {"label":"test vacuum","aliases":["tested vac","test vacuum"]}
+      ]
+    },
+    {
+      "page": 13, "log": "150121006",
+      "reported_failure": [
+        {"label":"bad Z motor","aliases":["z motor bad","bad z motor"]}
+      ],
+      "parts_replaced": [
+        {"label":"Z motor","aliases":["replaced z motor","z motor"]},
+        {"label":"ladder belt Z","aliases":["replaced ladder belt z","ladder belt z","ladder belt"]}
+      ],
+      "part_references": [],
+      "repair_actions": [
+        {"label":"clean/regrease R lead screw","aliases":["cleaned regreased r lead screw","regreased r lead screw"]},
+        {"label":"clean/regrease slide rails","aliases":["cleaned regreased slide rails","slide rails"]},
+        {"label":"adjust Z feet level","aliases":["adjusted z feet level","z feet level"]}
+      ]
+    },
+    {
+      "page": 14, "log": "150311001",
+      "reported_failure": [
+        {"label":"no vacuum at chuck / vacuum solenoids never engage","aliases":["no vacuum at chuck","vac solenoids never engage","vacuum solenoids never engage"]}
+      ],
+      "parts_replaced": [], "part_references": [],
+      "repair_actions": [
+        {"label":"regrease lead screw","aliases":["regreased lead screw","lead screw"]},
+        {"label":"lubricate ladder belt with Krytox","aliases":["krytox on ladder belt","ladder belt krytox"]},
+        {"label":"adjust CCD to center","aliases":["adjusted ccd to center","ccd to center"]},
+        {"label":"test vacuum no leaks","aliases":["tested vac no leaks","vac no leaks"]}
+      ]
+    },
+    {
+      "page": 15, "log": "150311002",
+      "reported_failure": [
+        {"label":"R axis not moving / cannot align","aliases":["r axis is not moving","cannot align","r axis not moving"]}
+      ],
+      "parts_replaced": [
+        {"label":"26LS31PC","aliases":["26ls31pc"]},
+        {"label":"SN74LS14N","aliases":["sn74ls14n","74ls14n"]}
+      ],
+      "part_references": [
+        {"label":"26LS31PC","aliases":["26ls31pc"]},
+        {"label":"SN74LS14N","aliases":["sn74ls14n"]}
+      ],
+      "repair_actions": [
+        {"label":"regrease R lead screw","aliases":["regreased r lead screw","r lead screw"]},
+        {"label":"set PinU/PinC heights","aliases":["set pinu","set pinc","pin u","pin c"]},
+        {"label":"test vacuum","aliases":["tested vacuum","test vacuum"]}
+      ]
+    },
+    {
+      "page": 16, "log": "151013001",
+      "reported_failure": [
+        {"label":"chuck fails to rotate","aliases":["chuck fails to rotate"]},
+        {"label":"wrong pin height causes alignment errors","aliases":["pin height was wrong","erroring out during alignment","alignment"]}
+      ],
+      "parts_replaced": [], "part_references": [],
+      "repair_actions": [
+        {"label":"slip/adjust Z pin cam lobe","aliases":["slipped the z pin cam lobe","z pin cam lobe"]},
+        {"label":"set Z FE / PinU / PinC parameters","aliases":["z fe","pinu","pinc","encoder counts"]}
+      ]
+    },
+    {
+      "page": 17, "log": "160128002",
+      "reported_failure": [
+        {"label":"dust caused chuck to run full speed","aliases":["dust inside prealigner causing the chuck to go full speed","chuck to go full speed"]},
+        {"label":"Z pins binding / not sliding","aliases":["z pins were binding","not sliding","pins binding"]}
+      ],
+      "parts_replaced": [], "part_references": [],
+      "repair_actions": [
+        {"label":"flush/regrease R/Z slide rails and R lead screw","aliases":["flushed regreased","slide rails","r lead screw"]},
+        {"label":"relevel Z pins to chuck","aliases":["releveled z pins to chuck","z pins to chuck"]},
+        {"label":"clean/purge inside prealigner","aliases":["cleaned and purged entire insides","alcohol contact"]},
+        {"label":"test vacuum no leaks","aliases":["tested vacuum no leaks","vacuum no leaks"]}
+      ]
+    },
+    {
+      "page": 18, "log": "160323001",
+      "reported_failure": [
+        {"label":"pins will not lift","aliases":["pins wont lift","pins will not lift"]},
+        {"label":"small Z motor bushings seized","aliases":["small z motor bushings are seized","z motor bushings seized"]}
+      ],
+      "parts_replaced": [
+        {"label":"Z encoder from parts unit","aliases":["stole z encoder from parts unit","z encoder"]}
+      ],
+      "part_references": [],
+      "repair_actions": [
+        {"label":"repair small Z motor","aliases":["small z motor"]},
+        {"label":"clean/regrease R lead screw","aliases":["cleaned regreased r lead screw","r lead screw"]},
+        {"label":"set Z index","aliases":["set z index"]},
+        {"label":"clean CCDs","aliases":["cleaned ccds","clean ccd"]}
+      ]
+    },
+    {
+      "page": 19, "log": "160630001",
+      "reported_failure": [
+        {"label":"communication problem due mirrored cable","aliases":["problems communicating","cable on prealigner being mirrored","communication issue"]},
+        {"label":"intermittent issue finding notch","aliases":["intermittent issues finding notch","finding notch"]}
+      ],
+      "parts_replaced": [], "part_references": [],
+      "repair_actions": [
+        {"label":"adjust all 3 CCD pots","aliases":["adjusted all 3 ccd pots","ccd pots"]},
+        {"label":"test vacuum","aliases":["tested vacuum","test vacuum"]},
+        {"label":"clean LED/CCDs","aliases":["cleaned led ccds","cleaned ccd"]}
+      ]
+    },
+    {
+      "page": 20, "log": "161123003",
+      "reported_failure": [
+        {"label":"dirty CCD caused intermittent alignment","aliases":["ccd dirty caused intermittent alignment","intermittent alignment"]}
+      ],
+      "parts_replaced": [], "part_references": [],
+      "repair_actions": [
+        {"label":"clean CCD/connectors","aliases":["cleaned connectors","ccd dirty","cleaned ccd"]}
+      ]
+    },
+    {
+      "page": 22, "log": "170109004",
+      "reported_failure": [
+        {"label":"pins partially up / will not home","aliases":["pins are partially in the up position","will not home","pins partially"]}
+      ],
+      "parts_replaced": [
+        {"label":"Z motor","aliases":["z motor with new one","new z motor","z motor"]}
+      ],
+      "part_references": [],
+      "repair_actions": [
+        {"label":"JB-weld Z motor cog to shaft","aliases":["jb welded z motor cog to shaft","z motor cog"]},
+        {"label":"clean/regrease slide rail and cam lobe with Krytox","aliases":["cleaned regreased slide rail","cam lobe with krytox"]},
+        {"label":"service chuck vacuum solenoid","aliases":["chuck vacuum solenoid","vacuum solenoid"]}
+      ]
+    },
+    {
+      "page": 23, "log": "170216005",
+      "reported_failure": [
+        {"label":"keeps stalling every few wafers","aliases":["keeps stalling every few wafers","stalling"]},
+        {"label":"bad Z axis motor","aliases":["bad z axis motor","bad z motor"]}
+      ],
+      "parts_replaced": [
+        {"label":"Z motor","aliases":["z motor"]},
+        {"label":"Z encoder","aliases":["z encoder","encoder"]}
+      ],
+      "part_references": [
+        {"label":"HEDS-5540-A01 family","aliases":["heds5540a01","hns5540a01","heds5540","hns5540"]}
+      ],
+      "repair_actions": []
+    },
+    {
+      "page": 25, "log": "170510001",
+      "reported_failure": [
+        {"label":"pins only come up halfway","aliases":["pins only come up about halfway","pins only come up halfway"]},
+        {"label":"Z motor belt dry / missing teeth","aliases":["belt for z motor was dry and missing teeth","missing teeth","z motor belt"]}
+      ],
+      "parts_replaced": [
+        {"label":"Z belt blue","aliases":["z belt blue","blue z belt","belt blue"]}
+      ],
+      "part_references": [],
+      "repair_actions": [
+        {"label":"set Z FE / PinU / PinC","aliases":["set z fe","set pinu pinc","pinu pinc"]},
+        {"label":"clean/regrease lead screw with Krytox","aliases":["cleaned regreased lead screw krytox","lead screw krytox"]},
+        {"label":"clean CCD","aliases":["cleaned ccd"]},
+        {"label":"inspect Z motor for wear","aliases":["inspected z motor for wear","z motor wear"]},
+        {"label":"test vacuum no leaks","aliases":["tested vacuum no leaks","vacuum no leaks"]}
+      ]
+    },
+    {
+      "page": 27, "log": "180103004",
+      "reported_failure": [
+        {"label":"very dirty from fab slurry","aliases":["very dirty from fab slurry","fab slurry"]}
+      ],
+      "parts_replaced": [], "part_references": [],
+      "repair_actions": [
+        {"label":"clean and flush","aliases":["cleaned flushed","cleaned and flushed"]},
+        {"label":"swap CCD with 4-inch CCD","aliases":["swapped ccd with 4","ccd with 4"]}
+      ]
+    },
+    {
+      "page": 28, "log": "180302002",
+      "reported_failure": [
+        {"label":"failed after 2 months / Z axis pins U and C wrong","aliases":["failed after 2 months","z axis pins u c wrong","z axis pins"]}
+      ],
+      "parts_replaced": [
+        {"label":"Z axis belt","aliases":["z axis belt","z belt"]}
+      ],
+      "part_references": [],
+      "repair_actions": [
+        {"label":"lock down Z-axis gears/collars/cam gear","aliases":["locked down both z axis gear collars","cam gear","gear collars"]},
+        {"label":"cycle test","aliases":["cycle tested","cycle test"]},
+        {"label":"set SWU and save firmware","aliases":["set swu","fw saved to floppy","firmware"]}
+      ]
+    },
+    {
+      "page": 29, "log": "180314012",
+      "reported_failure": [
+        {"label":"Z axis pins not level","aliases":["z axis pins not level","pins not level"]}
+      ],
+      "parts_replaced": [
+        {"label":"belt","aliases":["belt"]}
+      ],
+      "part_references": [],
+      "repair_actions": [
+        {"label":"set Pin-C height","aliases":["set pin c height","pin c height"]}
+      ]
+    },
+    {
+      "page": 30, "log": "180521007",
+      "reported_failure": [
+        {"label":"pin issue / bad Z motor pins","aliases":["pin issue","bad z motor pins","bad z motor"]}
+      ],
+      "parts_replaced": [
+        {"label":"Maxon Z motor","aliases":["new maxon z motor","maxon z motor","new maxon motor"]},
+        {"label":"HEDS-5540 encoder","aliases":["new encoder heds5540","heds5540 encoder","encoder heds5540"]}
+      ],
+      "part_references": [
+        {"label":"HEDS-5540-A01 family","aliases":["heds5540a01","heds5540"]}
+      ],
+      "repair_actions": []
+    },
+    {
+      "page": 31, "log": "180730002",
+      "reported_failure": [
+        {"label":"Z axis fingers will not home / motor stiff","aliases":["z axis up and down fingers wont home","motor feels stiff","z axis wont home"]}
+      ],
+      "parts_replaced": [
+        {"label":"Z motor from inventory","aliases":["z motor with last resort motor from inventory","motor from inventory","z motor"]}
+      ],
+      "part_references": [],
+      "repair_actions": [
+        {"label":"clean/regrease lead screw","aliases":["cleaned regreased lead screw","lead screw"]},
+        {"label":"set/level PinU and PinC","aliases":["set pinu pinc","leveled pins","pin positions"]},
+        {"label":"test vacuum / small solenoid leak","aliases":["tested vacuum","small leak in solenoid","vacuum solenoid"]},
+        {"label":"clean CCDs","aliases":["cleaned ccds"]}
+      ]
+    },
+    {
+      "page": 32, "log": "180730004",
+      "reported_failure": [
+        {"label":"bad Z motor","aliases":["bad z motor"]}
+      ],
+      "parts_replaced": [
+        {"label":"Maxon Z motor","aliases":["z motor with maxon motor","maxon motor"]},
+        {"label":"HEDS-5540 encoder","aliases":["encoder with heds5540","heds5540 encoder","heds5540"]},
+        {"label":"main-board inductor coils","aliases":["swapped out inductor coils","inductor coils"]}
+      ],
+      "part_references": [
+        {"label":"HEDS-5540 family","aliases":["heds5540"]},
+        {"label":"SN74LS14N","aliases":["sn74ls14n"]},
+        {"label":"AM26LS31CN","aliases":["am26ls31cn"]}
+      ],
+      "repair_actions": [
+        {"label":"make custom encoder mounting plate","aliases":["made custom plate to mount encoder","custom plate mount encoder"]},
+        {"label":"clean corrosion on lower main board","aliases":["pulled several parts to clear corrosion","clear corrosion","lower main board"]},
+        {"label":"clean/regrease R lead screw","aliases":["cleaned regreased r lead screw","r lead screw"]},
+        {"label":"level pins to chuck","aliases":["leveled pins to chuck","pins to chuck"]},
+        {"label":"test vacuum","aliases":["tested vacuum"]}
+      ]
+    },
+    {
+      "page": 33, "log": "180906004",
+      "reported_failure": [
+        {"label":"Z belt loose/rubbing harness and pin levelness off","aliases":["z belt was loose and rubbing harness","pin levelness","z belt loose"]}
+      ],
+      "parts_replaced": [
+        {"label":"Z belt new style","aliases":["replaced z belt with new style","z belt new style","replaced z belt"]}
+      ],
+      "part_references": [],
+      "repair_actions": [
+        {"label":"clean CCDs","aliases":["cleaned ccds"]},
+        {"label":"adjust PinU/PinC and level pins","aliases":["adjusted pinu pinc","leveled pins to chuck"]},
+        {"label":"flush main connectors","aliases":["flushed main connectors"]},
+        {"label":"adjust speeds","aliases":["adjusted speeds to factory specs","adjusted speeds"]},
+        {"label":"test vacuum","aliases":["tested vacuum"]}
+      ]
+    },
+    {
+      "page": 34, "log": "181127004",
+      "reported_failure": [
+        {"label":"Z belt worn / recommend replacing","aliases":["z belt looks worn recommend replacing","z belt worn"]},
+        {"label":"pin-to-chuck levelness off / CCDs dirty","aliases":["pin to chuck levelness is slightly off","ccds were covered in crud","ccds covered in crud"]}
+      ],
+      "parts_replaced": [], "part_references": [],
+      "repair_actions": [
+        {"label":"mechanically adjust Z belt / PinU/PinC","aliases":["z belt mechanically adjusted","pinu pinc positions"]},
+        {"label":"clean CCDs/LEDs","aliases":["cleaned ccds leds","cleaned ccd"]},
+        {"label":"sand/level pins to improve vacuum seal","aliases":["sanded pins with 600 grit","help seal vacuum","pins to chuck levelness"]},
+        {"label":"clean/flush main connectors","aliases":["cleaned flushed main connectors"]},
+        {"label":"clean/regrease lead screw","aliases":["cleaned regreased lead screw"]},
+        {"label":"test vacuum","aliases":["tested vacuum"]}
+      ]
+    },
+    {
+      "page": 36, "log": "190327001",
+      "reported_failure": [
+        {"label":"needs data file that goes with unit","aliases":["needs data file that goes with it","needs data file"]}
+      ],
+      "parts_replaced": [], "part_references": [],
+      "repair_actions": [
+        {"label":"PAR/WAF/CAL files tested good","aliases":["par waf cal files tested good","files tested good"]}
+      ]
+    },
+    {
+      "page": 37, "log": "190404014",
+      "reported_failure": [
+        {"label":"intermittent","aliases":["intermittent"]}
+      ],
+      "parts_replaced": [], "part_references": [],
+      "repair_actions": [
+        {"label":"repull pins","aliases":["had to repull pins","repull pins"]},
+        {"label":"fix chuck vacuum leak","aliases":["chuck vac leak fixed","vac leak fixed"]},
+        {"label":"cycle test 8 hours","aliases":["cycled 8hrs","cycle 8"]}
+      ]
+    },
+    {
+      "page": 38, "log": "190425002",
+      "reported_failure": [
+        {"label":"request long pins for aligner with short chuck","aliases":["add long pins","long pins","short chuck"]}
+      ],
+      "parts_replaced": [
+        {"label":"short pins swapped for tall/long pins","aliases":["short pins for tall ones","long pins","tall pins"]}
+      ],
+      "part_references": [],
+      "repair_actions": [
+        {"label":"adjust parameters/macros for new pins","aliases":["adjusted parameters and macros","parameters macros"]}
+      ]
+    }
+  ]
+}
