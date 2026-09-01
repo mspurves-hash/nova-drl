@@ -15,5 +15,8 @@
   "generic_root_cause_fixes_must_be_global": true,
   "product_suffix_resolution_scope": "global_corpus_volume_rule",
   "component_variant_resolution_scope": "global_corpus_volume_rule",
-  "product_specific_resolver_patches_forbidden_unless_explicit_exception": true
+  "product_specific_resolver_patches_forbidden_unless_explicit_exception": true,
+  "component_name_fallback_scope": "global_explicit_replacement_evidence",
+  "recurring_repair_action_scope": "global_structured_technician_history",
+  "raw_repair_history_in_normal_product_view": false
 }
