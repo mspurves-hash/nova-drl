@@ -1,0 +1,27 @@
+{
+  "version": "1.6.0",
+  "name": "Nova DRL Global Lossless Corpus",
+  "governing_rule": "80/20 is the hard governing rule and is not superseded by later development rules",
+  "proven_baseline_rule": "A quantitatively proven model/prompt/role remains the global default until a controlled benchmark proves a superior replacement",
+  "global_fix_rule": "Generic root causes receive global fixes; product-specific patches are forbidden unless explicitly approved as true exceptions",
+  "frozen_corpus_manifest": "/opt/nova-drl/corpus/drl_full_corpus_v1_5_1/full_corpus_manifest_v1_5_1.json",
+  "proven_model": "qwen3-vl-drl:8b-q8-16k",
+  "pipeline": [
+    "frozen v1.3.5.1 whole-page transcription",
+    "frozen v1.3.6.1 high-recall prospector",
+    "generic high-recall technical evidence pass",
+    "generic PN/reference-focused pass",
+    "deterministic lossless evidence merge"
+  ],
+  "evidence_policy": {
+    "raw_transcription_immutable": true,
+    "later_model_may_delete_evidence": false,
+    "later_model_may_rewrite_primary_evidence": false,
+    "ambiguous_evidence_preserved": true,
+    "component_family_normalization_during_ingestion": false,
+    "section_role_is_evidence_metadata": true
+  },
+  "source_mutation": false,
+  "qdrant_writes": false,
+  "accepted_facts": 0
+}
