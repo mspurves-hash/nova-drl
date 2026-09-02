@@ -1,0 +1,26 @@
+{
+  "benchmark": "RCL1A-1D-W3 156 unique repairs",
+  "source_pages": 167,
+  "unique_repairs": 156,
+  "duplicate_pages_excluded": [90,95,96,98,99,101,102,104,105,107,108],
+  "parts": [
+    {"reference":"IXFX24N100Q3","expected_repairs":98,"aliases":["IXFX24N100Q3","IXFX24N100","IXFX 24N100","IXFX 24N/100","24N100Q3","24N/100Q3"]},
+    {"reference":"KLK-15 / 0KLK015.T 15A 600V fuse","expected_repairs":86,"aliases":["KLK-15","KLK 15","0KLK015.T","OKLK015.T","KLK015.T","KTK 15","15A 600V fuse","15 A 600 V fuse"]},
+    {"reference":"FDH038AN08A1","expected_repairs":55,"aliases":["FDH038AN08A1","038AN08A1","38AN08A1","FDH 038AN08A1","038AN/08A1"]},
+    {"reference":"0325015.HXP 15A 250V pigtail fuse","expected_repairs":53,"aliases":["0325015.HXP","0325015HXP","0325015","pigtail fuse","pig-tail fuse","pigtail 15A 250V"]},
+    {"reference":"15A 250V cartridge/mini/standard fuse","expected_repairs":40,"aliases":["15A 250V fuse","15 A 250 V fuse","15 amp 250v fuse","15A 250V cartridge","15 A 250 V cartridge","15A 250V mini","15 amp standard fuse"]},
+    {"reference":"STTH1506TPI","expected_repairs":26,"aliases":["STTH1506TPI","STTH1506","STTH 1506","1506TPI"]},
+    {"reference":"ISL6551IR","expected_repairs":24,"aliases":["ISL6551IR","ISL 6551 IR","ISL6551","6551IR"]},
+    {"reference":"Fuse holder","expected_repairs":12,"aliases":["fuse holder","fuseholder"]},
+    {"reference":"Smart/small daughter-board assembly","expected_repairs":13,"aliases":["smart board","smart-board","small smart board","smart e board","smart-e board","daughter board","daughter-board"]},
+    {"reference":"UCC3818D","expected_repairs":5,"aliases":["UCC3818D","UCC3818"]},
+    {"reference":"IXYS FB040-12N","expected_repairs":4,"aliases":["FB040-12N","FB04012N","IXYS FB040","FB040 12N"]},
+    {"reference":"LM5110-2M/NOPB","expected_repairs":3,"aliases":["LM5110-2M/NOPB","LM5110-2M","LM5110","5110"]},
+    {"reference":"IRF9952PBF","expected_repairs":2,"aliases":["IRF9952PBF","IRF9952","9952PBF"]},
+    {"reference":"MC34072 / MC34072ADR2G","expected_repairs":2,"aliases":["MC34072ADR2G","MC34072","34072ADR2G"]},
+    {"reference":"MC34074 / MC34074ADR2G","expected_repairs":2,"aliases":["MC34074ADR2G","MC34074","34074ADR2G"]},
+    {"reference":"MOC213M","expected_repairs":1,"aliases":["MOC213M","MOC213"]},
+    {"reference":"LM393","expected_repairs":1,"aliases":["LM393"]},
+    {"reference":"UCC3816","expected_repairs":1,"aliases":["UCC3816"]}
+  ]
+}
