@@ -280,56 +280,91 @@ def review_html(title):
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>__TITLE__</title>
 <style>
-body { font-family: system-ui, sans-serif; margin:0; background:#f4f4f4; }
-main { max-width:1400px; margin:auto; padding:18px; }
-h1 { margin:0 0 6px; }
-.subtle { color:#555; margin-bottom:14px; }
-.toolbar { position:sticky; top:0; z-index:5; background:white; padding:12px; border:1px solid #bbb; border-radius:8px; margin-bottom:14px; }
-button { padding:9px 14px; font-size:1rem; }
-table { width:100%; border-collapse:collapse; background:white; }
-th,td { padding:9px 10px; border-bottom:1px solid #ddd; vertical-align:top; }
-th { position:sticky; top:62px; background:#eee; text-align:left; }
-.keep { width:70px; text-align:center; }
-.num { width:85px; text-align:right; }
-.kind { width:150px; }
-.part { font-weight:700; }
-.variants { color:#555; font-size:.9rem; margin-top:3px; }
-.examples { background:#f8f8f8; border-left:3px solid #aaa; padding:8px 10px; margin-top:5px; }
-input[type=checkbox] { width:20px; height:20px; }
-.status { font-weight:700; margin-left:10px; }
-.saved { background:#eef7ee; }
-.screened { opacity:.72; }
+:root { font-family: system-ui, -apple-system, sans-serif; }
+body { margin:0; background:#f4f4f4; color:#111; }
+main { max-width:1000px; margin:0 auto; padding:18px; }
+h1 { margin:0 0 6px; font-size:1.55rem; }
+.subtle { color:#555; }
+.toolbar {
+  background:white; border:1px solid #ccc; border-radius:10px;
+  padding:12px; margin:12px 0 18px;
+  display:flex; flex-wrap:wrap; align-items:center; gap:14px;
+}
+.card {
+  background:white; border:1px solid #bbb; border-radius:12px;
+  padding:22px; box-shadow:0 1px 4px rgba(0,0,0,.08);
+}
+.title-row { display:flex; justify-content:space-between; gap:15px; align-items:flex-start; }
+h2 { font-size:2rem; margin:0 0 8px; }
+.counter { font-weight:700; white-space:nowrap; }
+.stats {
+  display:flex; flex-wrap:wrap; gap:10px 18px;
+  padding:10px 0; border-bottom:1px solid #ddd; margin-bottom:14px;
+}
+.variants { font-size:1.05rem; margin:10px 0 14px; }
+.evidence {
+  margin:8px 0 16px; padding:12px 16px;
+  background:#f8f8f8; border-left:4px solid #aaa; border-radius:4px;
+}
+.evidence div { margin:5px 0; }
+fieldset { border:1px solid #bbb; border-radius:8px; padding:14px; }
+legend { font-weight:700; }
+label { display:block; margin-top:9px; }
+select, input[type=text], textarea {
+  width:100%; box-sizing:border-box; padding:9px;
+  margin-top:4px; font-size:1rem;
+}
+textarea { min-height:60px; }
+.actions { display:flex; flex-wrap:wrap; gap:10px; margin-top:15px; }
+button { padding:10px 16px; font-size:1rem; cursor:pointer; }
+.primary { font-weight:700; }
+.status { font-weight:700; margin-left:8px; }
+.warn { font-weight:700; margin:8px 0; }
+details { margin-top:15px; border-top:1px solid #ddd; padding-top:10px; }
+details .small { font-size:.9rem; color:#444; }
+.empty {
+  background:white; border:1px solid #bbb; border-radius:10px;
+  padding:30px; text-align:center;
+}
 </style>
 </head>
 <body>
 <main>
 <h1>__TITLE__</h1>
-<div class="subtle">Check the correct parts you want kept in future outputs. Leave incorrect, junk, or duplicate candidates unchecked. Unchecked rows are screened from future outputs only; frozen evidence is never deleted.</div>
+<div class="subtle">Human verification only — frozen evidence is never modified.</div>
 
 <div class="toolbar">
-  <button onclick="saveSelections()"><b>Save selections</b></button>
-  <button onclick="loadData()">Reload</button>
-  <span id="summary" class="status"></span>
-  <span id="saveStatus" class="status"></span>
+  <label style="margin:0">
+    Minimum repair events:
+    <select id="minEvents" style="width:auto;margin-left:5px">
+      <option value="5">5+</option>
+      <option value="3" selected>3+</option>
+      <option value="2">2+</option>
+      <option value="1">All</option>
+    </select>
+  </label>
+
+  <label style="margin:0">
+    <input id="showResolved" type="checkbox">
+    Show already reviewed
+  </label>
+
+  <label style="margin:0">
+    <input id="showStale" type="checkbox" checked>
+    Show stale decisions
+  </label>
+
+  <button onclick="loadData()">Refresh</button>
+  <span id="queueSummary" class="status"></span>
 </div>
 
-<table>
-<thead>
-<tr>
-  <th>Keep</th>
-  <th>Part / candidate</th>
-  <th>Repairs</th>
-  <th>Pieces</th>
-  <th>Mentions</th>
-  <th>Type</th>
-</tr>
-</thead>
-<tbody id="rows"></tbody>
-</table>
+<div id="viewer"></div>
 </main>
 
 <script>
-let data = null;
+let allData = null;
+let queue = [];
+let index = 0;
 
 function esc(s) {
   return String(s ?? "").replace(/[&<>"']/g, c => ({
@@ -337,77 +372,195 @@ function esc(s) {
   })[c]);
 }
 
-function isKept(c) {
-  const d = c.current_decision || {};
-  return c.review_status === 'current'
-      && d.decision === 'confirm'
-      && !d.suppress_from_future_review;
-}
+function rebuildQueue(keepCandidateId=null) {
+  if (!allData) return;
 
-async function loadData() {
-  const r = await fetch('/api/data');
-  data = await r.json();
-  const body = document.getElementById('rows');
-  body.innerHTML = '';
-  let kept = 0;
+  const minEvents = Number(document.getElementById('minEvents').value);
+  const showResolved = document.getElementById('showResolved').checked;
+  const showStale = document.getElementById('showStale').checked;
 
-  for (const c of data.candidates) {
-    const checked = isKept(c);
-    if (checked) kept++;
+  queue = allData.candidates.filter(c => {
+    if (c.repair_event_count < minEvents) return false;
+    if (!showStale && c.review_status === 'stale') return false;
 
-    const tr = document.createElement('tr');
-    if (checked) tr.classList.add('saved');
-    else if (c.review_status === 'current') tr.classList.add('screened');
+    if (!showResolved && c.review_status === 'current') {
+      const d = c.current_decision || {};
+      if (d.decision !== 'pending' || d.suppress_from_future_review) {
+        return false;
+      }
+    }
+    return true;
+  });
 
-    const variants = (c.part_number_variants || []).length
-      ? (c.part_number_variants || []).join(', ')
-      : (c.description_variants || []).slice(0,6).join(' | ');
-
-    const examples = (c.evidence_examples || []).slice(0,5)
-      .map(x => `<div>• ${esc(x)}</div>`).join('');
-
-    const stale = c.review_status === 'stale'
-      ? `<div><b>Evidence changed — prior decision is stale.</b></div>`
-      : '';
-
-    tr.innerHTML = `
-      <td class="keep"><input class="keepBox" type="checkbox" data-id="${esc(c.candidate_id)}" ${checked ? 'checked' : ''}></td>
-      <td>
-        <div class="part">${esc(c.display_label)}</div>
-        ${stale}
-        <div class="variants">${esc(variants || '')}</div>
-        <details>
-          <summary>Evidence</summary>
-          <div class="examples">${examples || 'No examples available.'}</div>
-          <div class="variants"><b>Repair events:</b> ${esc((c.repair_event_ids || []).join(', '))}</div>
-        </details>
-      </td>
-      <td class="num">${c.repair_event_count}</td>
-      <td class="num">${c.recorded_pieces}</td>
-      <td class="num">${c.mention_count}</td>
-      <td class="kind">${esc(c.candidate_kind)}</td>
-    `;
-    body.appendChild(tr);
+  if (keepCandidateId) {
+    const pos = queue.findIndex(c => c.candidate_id === keepCandidateId);
+    if (pos >= 0) index = pos;
+    else if (index >= queue.length) index = Math.max(0, queue.length - 1);
+  } else if (index >= queue.length) {
+    index = Math.max(0, queue.length - 1);
   }
 
-  document.getElementById('summary').textContent =
-    `${data.candidates.length} total candidates | ${kept} currently kept`;
-  document.getElementById('saveStatus').textContent = '';
+  document.getElementById('queueSummary').textContent =
+    `${queue.length} in review queue`;
+
+  renderCurrent();
 }
 
-async function saveSelections() {
-  if (!data) return;
-  const selected = Array.from(document.querySelectorAll('.keepBox:checked'))
-    .map(x => x.dataset.id);
+function currentCandidate() {
+  return queue.length ? queue[index] : null;
+}
+
+function renderCurrent() {
+  const root = document.getElementById('viewer');
+  const c = currentCandidate();
+
+  if (!c) {
+    root.innerHTML = `
+      <div class="empty">
+        <h2>Nothing left in this review queue.</h2>
+        <p>Lower the minimum repair-event filter or show already reviewed items.</p>
+      </div>`;
+    return;
+  }
+
+  const d = c.current_decision || {};
+  const stale = c.stale_decision || null;
+
+  const pns = (c.part_number_variants || []).join(', ');
+  const primaryVariants = pns || (c.description_variants || []).slice(0,4).join(' | ');
+
+  const examples = (c.evidence_examples || []).slice(0,4);
+  const extraExamples = (c.evidence_examples || []).slice(4);
+
+  const evidenceHtml = examples.map(x => `<div>• ${esc(x)}</div>`).join('');
+  const extraEvidenceHtml = extraExamples.map(x => `<div>• ${esc(x)}</div>`).join('');
+
+  const staleHtml = stale
+    ? `<div class="warn">Prior decision is stale because the evidence changed. Review again.</div>`
+    : '';
+
+  root.innerHTML = `
+    <div class="card">
+      <div class="title-row">
+        <div>
+          <h2>${esc(c.display_label)}</h2>
+          ${staleHtml}
+        </div>
+        <div class="counter">${index + 1} of ${queue.length}</div>
+      </div>
+
+      <div class="stats">
+        <span><b>Repairs:</b> ${c.repair_event_count}</span>
+        <span><b>Recorded pieces:</b> ${c.recorded_pieces}</span>
+        <span><b>Mentions:</b> ${c.mention_count}</span>
+      </div>
+
+      <div class="variants">
+        <b>Observed variants:</b> ${esc(primaryVariants || 'None')}
+      </div>
+
+      <div><b>Evidence examples</b></div>
+      <div class="evidence">
+        ${evidenceHtml || '<div>No evidence examples available.</div>'}
+      </div>
+
+      <fieldset>
+        <legend>Human decision</legend>
+
+        <label>
+          Decision
+          <select id="decision">
+            <option value="pending">Pending / skip for now</option>
+            <option value="confirm">Confirm component identity</option>
+            <option value="keep_separate">Keep separate / do not merge</option>
+            <option value="reject">Reject as replacement-component evidence</option>
+          </select>
+        </label>
+
+        <label>
+          Canonical component / label
+          <input id="canonical" type="text"
+            value="${esc(d.canonical_label || '')}"
+            placeholder="Example: IXFX24N100Q3">
+        </label>
+
+        <label>
+          <input id="suppress" type="checkbox"
+            ${d.suppress_from_future_review ? 'checked' : ''}>
+          Remove from future review outputs
+        </label>
+
+        <label>
+          Notes
+          <textarea id="notes">${esc(d.notes || '')}</textarea>
+        </label>
+
+        <div class="actions">
+          <button onclick="previousCandidate()">← Previous</button>
+          <button class="primary" onclick="saveAndNext()">Save & Next →</button>
+          <button onclick="skipCandidate()">Skip →</button>
+          <span id="saveStatus" class="status"></span>
+        </div>
+      </fieldset>
+
+      <details>
+        <summary>More details</summary>
+        <div class="small">
+          <p><b>Candidate type:</b> ${esc(c.candidate_kind)}</p>
+          <p><b>Qty unstated:</b> ${c.quantity_unstated_mentions}</p>
+          <p><b>Description variants:</b> ${esc((c.description_variants || []).join(' | ') || 'None')}</p>
+          ${extraEvidenceHtml ? `<p><b>More evidence:</b></p><div class="evidence">${extraEvidenceHtml}</div>` : ''}
+          <p><b>Repair events:</b> ${esc((c.repair_event_ids || []).join(', '))}</p>
+          <p><b>Candidate ID:</b> ${esc(c.candidate_id)}</p>
+          <p><b>Review ID:</b> ${esc(c.review_id)}</p>
+          <p><b>Evidence hash:</b> ${esc(c.evidence_hash)}</p>
+        </div>
+      </details>
+    </div>
+  `;
+
+  document.getElementById('decision').value = d.decision || 'pending';
+}
+
+async function loadData(keepCandidateId=null) {
+  const r = await fetch('/api/data');
+  allData = await r.json();
+  rebuildQueue(keepCandidateId);
+}
+
+function previousCandidate() {
+  if (!queue.length) return;
+  index = Math.max(0, index - 1);
+  renderCurrent();
+}
+
+function skipCandidate() {
+  if (!queue.length) return;
+  index = Math.min(queue.length - 1, index + 1);
+  renderCurrent();
+}
+
+async function saveAndNext() {
+  const c = currentCandidate();
+  if (!c) return;
+
+  const payload = {
+    candidate_id: c.candidate_id,
+    decision: document.getElementById('decision').value,
+    canonical_label: document.getElementById('canonical').value,
+    suppress_from_future_review: document.getElementById('suppress').checked,
+    notes: document.getElementById('notes').value
+  };
 
   const status = document.getElementById('saveStatus');
   status.textContent = 'Saving...';
 
-  const r = await fetch('/api/bulk-selection', {
+  const r = await fetch('/api/decision', {
     method:'POST',
     headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({selected_candidate_ids:selected})
+    body:JSON.stringify(payload)
   });
+
   const out = await r.json();
 
   if (!r.ok) {
@@ -415,9 +568,23 @@ async function saveSelections() {
     return;
   }
 
-  status.textContent = `Saved — kept ${out.selected_count}, screened ${out.screened_count}`;
-  await loadData();
+  const oldId = c.candidate_id;
+  status.textContent = 'Saved';
+
+  // Refresh from disk. If the decision removes this candidate from the
+  // unresolved queue, stay at the same queue position so the next item appears.
+  await loadData(oldId);
+
+  const stillHere = queue.findIndex(x => x.candidate_id === oldId);
+  if (stillHere >= 0) {
+    index = Math.min(stillHere + 1, queue.length - 1);
+    renderCurrent();
+  }
 }
+
+document.getElementById('minEvents').addEventListener('change', () => rebuildQueue());
+document.getElementById('showResolved').addEventListener('change', () => rebuildQueue());
+document.getElementById('showStale').addEventListener('change', () => rebuildQueue());
 
 loadData();
 </script>
@@ -541,65 +708,6 @@ class Workspace:
         self.rebuild_outputs()
         return row
 
-    def save_bulk_selection(self, selected_candidate_ids):
-        selected = {str(x) for x in (selected_candidate_ids or [])}
-        unknown = selected - set(self.by_id)
-        if unknown:
-            raise ValueError("Unknown candidate_id(s): " + ", ".join(sorted(unknown)[:10]))
-
-        latest = load_latest_decisions(self.ledger_path)
-        changed = 0
-        selected_count = 0
-        screened_count = 0
-        reviewed_at = now_utc()
-
-        for c in self.candidates:
-            cid = c["candidate_id"]
-            keep = cid in selected
-            desired_decision = "confirm" if keep else "reject"
-            desired_suppress = not keep
-
-            current = latest.get(cid)
-            current_valid = current is not None and current.get("evidence_hash") == c["evidence_hash"]
-
-            if current_valid and current.get("decision") == desired_decision and bool(current.get("suppress_from_future_review")) == desired_suppress:
-                if keep:
-                    selected_count += 1
-                else:
-                    screened_count += 1
-                continue
-
-            row = {
-                "version": VERSION,
-                "decision_id": stable_id("hd_", cid, c["evidence_hash"], reviewed_at, self.args.reviewer, desired_decision, desired_suppress),
-                "candidate_id": cid,
-                "review_id": c["review_id"],
-                "evidence_hash": c["evidence_hash"],
-                "family": self.args.family,
-                "decision": desired_decision,
-                "canonical_label": c["display_label"] if keep else None,
-                "suppress_from_future_review": desired_suppress,
-                "notes": "Selected in full-list human parts review." if keep else "Left unchecked in full-list human parts review.",
-                "reviewer": self.args.reviewer,
-                "reviewed_at_utc": reviewed_at,
-                "raw_evidence_preserved": True,
-                "qdrant_entry_created": False,
-            }
-            append_jsonl(self.ledger_path, row)
-            changed += 1
-
-            if keep:
-                selected_count += 1
-            else:
-                screened_count += 1
-
-        self.rebuild_outputs()
-        return {
-            "changed_decisions": changed,
-            "selected_count": selected_count,
-            "screened_count": screened_count,
-        }
-
 
 def make_handler(workspace):
     class Handler(BaseHTTPRequestHandler):
@@ -641,24 +749,15 @@ def make_handler(workspace):
 
         def do_POST(self):
             path = urlparse(self.path).path
+            if path != "/api/decision":
+                self.send_json({"error": "not found"}, 404)
+                return
 
             try:
                 length = int(self.headers.get("Content-Length") or "0")
                 payload = json.loads(self.rfile.read(length).decode("utf-8"))
-
-                if path == "/api/decision":
-                    row = workspace.save_decision(payload)
-                    self.send_json({"ok": True, "decision": row})
-                    return
-
-                if path == "/api/bulk-selection":
-                    result = workspace.save_bulk_selection(
-                        payload.get("selected_candidate_ids") or []
-                    )
-                    self.send_json({"ok": True, **result})
-                    return
-
-                self.send_json({"error": "not found"}, 404)
+                row = workspace.save_decision(payload)
+                self.send_json({"ok": True, "decision": row})
             except Exception as exc:
                 self.send_json({"error": str(exc)}, 400)
 
