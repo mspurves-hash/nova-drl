@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+set -euo pipefail
+SCRIPT="/opt/nova-drl/nova_drl_docx_report_v1_9_0.py"
+if [[ ! -f "$SCRIPT" ]]; then
+  echo "ERROR: Missing NOVA DOCX report generator: $SCRIPT"
+  exit 2
+fi
+exec python3 "$SCRIPT" "$@"
