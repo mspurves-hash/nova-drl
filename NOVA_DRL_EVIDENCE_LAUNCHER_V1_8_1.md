@@ -1,66 +1,89 @@
-# NOVA DRL Evidence Launcher — v1.8.1
+# NOVA DRL Technician Console v1.9.2
 
-## Frozen status
+## Purpose
 
-- Normal summary/search command: `nova-drl` -> frozen v1.5.16
-- Evidence drill-down command: `nova-drl-evidence` -> frozen v1.8.1
-- Qdrant: OFF
-- Accepted facts: 0
-- Database/corpus writes: none
+Make the editable DOCX report the normal technician-facing report action without
+changing frozen v1.5.16 search semantics.
 
-## Install
+The console is a thin workflow wrapper only.
 
-Copy the launcher into the repo as:
+## Frozen components
+
+- Search / family / Parts / failures / actions: v1.5.16
+- Evidence audit: v1.8.1
+- DOCX generator: v1.9.1
+- DOCX edit reviewer: v1.9.1
+
+## Workflow
 
 ```text
-bin/nova-drl-evidence
+DRL Part # search
+      |
+      v
+frozen v1.5.16 report
+      |
+      +-- :docx --> /mnt/drl-reports/NOVA_<PART>_Repair_Reference.docx
+      |
+      +-- :review --> compare Word edits with embedded NOVA baseline
+      |
+      +-- :new --> next DRL Part #
 ```
 
-Then on Ubuntu:
+Technician Notes remain report-only.
+
+## Installation
+
+Repo root:
+
+```text
+nova_drl_technician_console_v1_9_2.py
+test_nova_drl_technician_console_v1_9_2.py
+```
+
+Repo `bin/`:
+
+```text
+nova-drl-tech
+```
+
+Then:
 
 ```bash
 cd /opt/nova-drl
-
-chmod +x bin/nova-drl-evidence
-git update-index --chmod=+x bin/nova-drl-evidence
+chmod +x bin/nova-drl-tech
+python3 test_nova_drl_technician_console_v1_9_2.py
 ```
 
-## Test
+## Validation
+
+Do not replace `nova-drl` yet.
+
+Run:
 
 ```bash
-bin/nova-drl-evidence \
-  --search "MR-J2S-40A" \
-  --item "7800" \
-  --limit 3
-
-bin/nova-drl-evidence \
-  --search "XU-RCM7231" \
-  --item "REPLACE BEARING"
-
-bin/nova-drl-evidence \
-  --search "MR-J2S-40A" \
-  --item "LOW VOLTAGE" \
-  --type failure \
-  --limit 3
+bin/nova-drl-tech --search "MR-J2S-40A"
 ```
 
-Once installed on PATH, the normal form is:
-
-```bash
-nova-drl-evidence --search "MR-J2S-40A" --item "7800"
-```
-
-## Architecture
+After the report prints, type:
 
 ```text
-nova-drl
-  -> v1.5.16 family-first technician summary
-
-nova-drl-evidence
-  -> v1.8.1 family-scoped evidence drill-down
-  -> exact supporting repairs
-  -> evidence text
-  -> original Traveler path
+:docx
 ```
 
-The evidence launcher does not change v1.5.16 search semantics.
+The DOCX should appear directly in:
+
+```text
+/mnt/drl-reports
+```
+
+and therefore in Windows at:
+
+```text
+\\192.168.86.25\Public\NOVA_REPORTS
+```
+
+After editing/saving in Word, type `:review`.
+
+If this workflow feels right at the bench, the Windows NOVA shortcut can later
+be changed to launch `nova-drl-tech`. The underlying `nova-drl` command remains
+available as the frozen v1.5.16 engine.

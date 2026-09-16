@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+SCRIPT="/opt/nova-drl/nova_drl_technician_console_v1_9_2.py"
+
+if [[ ! -f "$SCRIPT" ]]; then
+  echo "ERROR: Missing NOVA DRL technician console: $SCRIPT"
+  exit 2
+fi
+
+exec python3 "$SCRIPT" "$@"
