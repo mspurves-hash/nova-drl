@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+SCRIPT="/opt/nova-drl/nova_drl_evidence_drilldown_v1_8_1.py"
+
+if [[ ! -f "$SCRIPT" ]]; then
+    echo "ERROR: Missing NOVA DRL evidence drill-down script:"
+    echo "  $SCRIPT"
+    exit 2
+fi
+
+exec python3 "$SCRIPT" "$@"
