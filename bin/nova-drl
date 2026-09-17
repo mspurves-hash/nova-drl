@@ -1,15 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
-SCRIPT="/opt/nova-drl/nova_drl_family_first_parts_gate_v1_5_16.py"
+SCRIPT="/opt/nova-drl/nova_drl_hard_part_first_unique_prefix_v1_5_18.py"
 if [[ ! -f "$SCRIPT" ]]; then
-  echo "Nova DRL v1.5.11 script not found: $SCRIPT" >&2
+  echo "ERROR: Missing NOVA v1.5.18 hard Part #-first search tool: $SCRIPT"
   exit 2
 fi
-if [[ $# -eq 0 ]]; then
-  exec python3 "$SCRIPT" --prompt
-elif [[ "$1" == --* ]]; then
-  # Stable server endpoint for Windows clients and automation.
-  exec python3 "$SCRIPT" "$@"
-else
-  exec python3 "$SCRIPT" --search "$*"
-fi
+exec python3 "$SCRIPT" "$@"

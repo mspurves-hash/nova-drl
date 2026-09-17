@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
-SCRIPT="/opt/nova-drl/nova_drl_docx_report_v1_9_3.py"
+SCRIPT="/opt/nova-drl/nova_drl_docx_report_v1_9_2.py"
 if [[ ! -f "$SCRIPT" ]]; then
   echo "ERROR: Missing NOVA DOCX report generator: $SCRIPT"
   exit 2
